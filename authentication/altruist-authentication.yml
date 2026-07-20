@@ -1,0 +1,43 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/docs/open-api-authentication
+docs:
+- https://developer.altruist.com/docs/open-api-authentication
+- https://developer.altruist.com/docs/authentication-1
+summary:
+  types: [oauth2, openIdConnect]
+  oauth2_flows: [authorizationCode, password]
+  notes: >-
+    Altruist exposes two API surfaces, each with its own OAuth 2.0 model. The
+    Open API uses the OAuth 2.0 Authorization Code flow (partner-facing,
+    consent-based). The Realtime API uses the OAuth 2.0 Resource Owner Password
+    Credentials grant against a Keycloak/OpenID Connect realm. Both present the
+    access token as an `Authorization: Bearer <token>` header. No API-key auth.
+schemes:
+- name: OpenAPI-OAuth2-AuthorizationCode
+  api: Altruist Open API
+  type: oauth2
+  flow: authorizationCode
+  authorizationUrl: https://oauth.stage1.altruistnet.tech/api/oauth2/authorize
+  tokenUrl: https://openapi.altruist.com/altruist-open-api/oauth2/token
+  scopes: [openid]
+  credential_header: 'Authorization: <access_token>'
+  parameters:
+    authorize: [client_id, redirect_uri, scope, state]
+    token: [client_id, client_secret, code, refresh_token, grant_type, token_type]
+  redirect_uri_rules: HTTPS required; localhost not supported; must be whitelisted
+  access_token_ttl_seconds: 3600
+  refresh_token_ttl_days: 30
+  source: https://developer.altruist.com/docs/open-api-authentication
+- name: Realtime-OAuth2-Password
+  api: Altruist Realtime API
+  type: oauth2
+  flow: password
+  tokenUrl: https://auth.altruist.com/realms/altruist/protocol/openid-connect/token
+  sandbox_tokenUrl: https://auth.demo1.altruistnet.tech/realms/altruist/protocol/openid-connect/token
+  credential_header: 'Authorization: Bearer <access_token>'
+  parameters:
+    token: [grant_type, username, password, client_id, client_secret]
+  access_token_ttl_seconds: 300
+  identity_provider: Keycloak / OpenID Connect (realm "altruist")
+  source: https://developer.altruist.com/docs/authentication-1
