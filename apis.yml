@@ -1,23 +1,75 @@
 aid: altruist
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/altruist.png
 name: Altruist
-description: 'Altruist is a company surfaced as a portfolio company of iconiq-capital, insight-partners
-  and added to the API Evangelist network as a stub for enrichment. Sector: fintech. This profile is a
-  lead awaiting the enrichment pipeline.'
+description: >-
+  Altruist is a modern, vertically integrated RIA custodian and technology
+  platform for independent financial advisors. It combines self-clearing custody
+  infrastructure with software for digital account opening, fractional
+  model-based trading, rebalancing, tax management, fee billing, and performance
+  reporting in a single workspace. Altruist runs a developer program with an
+  OAuth 2.0 Open API (accounts, households, positions, transactions, cost basis),
+  a Realtime API (account onboarding, funding, transfers, contacts, bank-link,
+  time-weighted return), and custodial flat-file (SFTP) data feeds, so advisor
+  tools and fintech partners such as Orion, Tamarac, Black Diamond, and Advyzon
+  can integrate directly with the custodian. Backed by ICONIQ Capital and Insight
+  Partners.
 url: https://raw.githubusercontent.com/api-evangelist/altruist/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - iconiq-capital
 - insight-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: developer-program-found
 specificationVersion: '0.20'
 created: '2026-07-17'
 modified: '2026-07-17'
 tags:
 - Company
 - Fintech
-apis: []
+- Custody
+- Wealth Management
+- Financial Advisors
+- RIA
+- Investing
+- OAuth
+apis:
+- name: Altruist Open API
+  description: >-
+    OAuth 2.0 authorization-code API giving partners full access to Altruist
+    custody data — accounts, households, positions, transactions, and cost basis
+    — for advisor tools, reporting, and reconciliation.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  properties:
+  - type: Documentation
+    url: https://developer.altruist.com/docs/altruist-open-api
+  - type: Authentication
+    url: https://developer.altruist.com/docs/open-api-authentication
+- name: Altruist Realtime API
+  description: >-
+    OAuth 2.0 password-grant API for account onboarding, funding, transfers,
+    contacts, households, bank-link, user management, and time-weighted return
+    performance reporting.
+  humanURL: https://developer.altruist.com/docs/altruist-realtime-apis
+  baseURL: https://integrations.altruist.com/api/
+  properties:
+  - type: Documentation
+    url: https://developer.altruist.com/docs/altruist-realtime-apis
+  - type: Authentication
+    url: https://developer.altruist.com/docs/authentication-1
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -26,3 +78,64 @@ maintainers:
 common:
 - type: Website
   url: https://altruist.com/
+- type: DeveloperPortal
+  url: https://developer.altruist.com/
+- type: Documentation
+  url: https://developer.altruist.com/docs/overview
+- type: APIReference
+  url: https://developer.altruist.com/reference
+- type: GettingStarted
+  url: https://developer.altruist.com/docs/getting-started-with-open-api
+- type: Authentication
+  url: authentication/altruist-authentication.yml
+- type: OAuthScopes
+  url: scopes/altruist-scopes.yml
+- type: ErrorCatalog
+  url: errors/altruist-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/altruist-lifecycle.yml
+- type: StatusPage
+  url: https://status.altruist.com/
+- type: Deprecation
+  url: https://developer.altruist.com/docs/deprecation-policy
+- type: Conventions
+  url: conventions/altruist-conventions.yml
+- type: Conformance
+  url: conformance/altruist-conformance.yml
+- type: Compliance
+  url: https://trust.altruist.com/
+- type: TrustCenter
+  url: security/altruist-trust-center.yml
+- type: DomainSecurity
+  url: security/altruist-domain-security.yml
+- type: Security
+  url: https://altruist.com/legal/security/
+- type: ChangeLog
+  url: changelog/altruist-changelog.yml
+- type: Sandbox
+  url: sandbox/altruist-sandbox.yml
+- type: WellKnown
+  url: well-known/altruist-well-known.yml
+- type: MCPServer
+  url: mcp/altruist-mcp.yml
+- type: LLMsTxt
+  url: llms/altruist-llms.txt
+- type: Support
+  url: https://developer.altruist.com/docs/support-policy
+- type: Blog
+  url: https://altruist.com/engineering-blog/
+- type: Pricing
+  url: https://hazel.ai/pricing
+- type: SignUp
+  url: https://app.altruist.com/login
+- type: TermsOfService
+  url: https://altruist.com/terms/
+- type: PrivacyPolicy
+  url: https://altruist.com/legal/privacy-policy/
+- type: Integrations
+  url: https://altruist.com/integrations/
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

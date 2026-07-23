@@ -1,0 +1,24 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/docs/versioning-policy
+versioning:
+  scheme: uri-path
+  pattern: /api/vN/...
+  current: v1.3.0
+  granularity: per-endpoint (each endpoint versioned independently)
+  breaking_change_rule: >-
+    Breaking changes are shipped as a new versioned endpoint (N+1); the existing
+    endpoint optionally enters a Deprecated state rather than being modified.
+  docs: https://developer.altruist.com/docs/versioning-policy
+deprecation:
+  policy_url: https://developer.altruist.com/docs/deprecation-policy
+  min_support_window: at least 1 year after an endpoint is deprecated
+  sunset_header: false
+  security_exception: >-
+    Altruist reserves the right to make immediate changes for security issues,
+    notifying partners as soon as possible with recommended upgrade guidance.
+support:
+  policy_url: https://developer.altruist.com/docs/support-policy
+status_page: https://status.altruist.com/
+status_page_provider: Atlassian Statuspage
+status_components: [Advisor Portal, Client Portal, Marketing Portal, Hazel AI]

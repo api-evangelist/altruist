@@ -1,0 +1,35 @@
+# Altruist
+
+> Altruist is a modern, vertically integrated RIA custodian and technology platform for independent financial advisors, combining self-clearing custody infrastructure with software for digital account opening, model-based trading, rebalancing, tax management, fee billing, and performance reporting. Its developer program exposes an OAuth 2.0 Open API and Realtime API (plus custodial flat-file feeds) so partners and advisor tools can automate account opening, money movement, and access account, position, transaction, and household data.
+
+## APIs
+- [Altruist Open API](https://developer.altruist.com/docs/altruist-open-api): OAuth2 authorization-code API for accounts, households, positions, transactions, and cost basis. Base URL https://openapi.altruist.com/altruist-open-api/
+- [Altruist Realtime API](https://developer.altruist.com/docs/altruist-realtime-apis): OAuth2 password-grant API for account onboarding, funding, transfers, contacts, households, bank-link, and time-weighted return. Base URL https://integrations.altruist.com/api/
+- [Altruist Custodial Flat Files](https://developer.altruist.com/docs/altruist-custodial-flat-files): SFTP flat-file delivery of household, account, position, transaction, and security data.
+
+## Docs
+- [Developer Portal](https://developer.altruist.com/)
+- [API Reference](https://developer.altruist.com/reference)
+- [Getting Started (Open API)](https://developer.altruist.com/docs/getting-started-with-open-api)
+- [Open API Authentication](https://developer.altruist.com/docs/open-api-authentication)
+- [Realtime API Authentication](https://developer.altruist.com/docs/authentication-1)
+- [HTTP Codes](https://developer.altruist.com/docs/http-codes)
+- [Realtime Error Codes](https://developer.altruist.com/docs/error-codes)
+- [Versioning Policy](https://developer.altruist.com/docs/versioning-policy)
+- [Deprecation Policy](https://developer.altruist.com/docs/deprecation-policy)
+- [Support Policy](https://developer.altruist.com/docs/support-policy)
+
+## Artifacts
+- [Authentication profile](authentication/altruist-authentication.yml)
+- [OAuth scopes](scopes/altruist-scopes.yml)
+- [Error catalog](errors/altruist-error-codes.yml)
+- [Lifecycle](lifecycle/altruist-lifecycle.yml)
+- [Conventions](conventions/altruist-conventions.yml)
+- [Conformance](conformance/altruist-conformance.yml)
+- [Sandbox](sandbox/altruist-sandbox.yml)
+
+## Operations
+- [Status Page](https://status.altruist.com/)
+- [Trust Center](https://trust.altruist.com/)
+- [Partner / Build With Us](https://altruist.com/build-with-us/)
+- [Integrations](https://altruist.com/integrations/)

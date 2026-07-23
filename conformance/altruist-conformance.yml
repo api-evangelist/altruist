@@ -1,0 +1,28 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/docs/open-api-authentication
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Open API uses OAuth 2.0 authorization-code flow; Realtime API uses OAuth 2.0
+    password grant. Both documented at developer.altruist.com auth pages.
+- id: oidc
+  conforms: true
+  evidence: >-
+    Open API authorization request uses scope=openid; Realtime API authenticates
+    against a Keycloak OpenID Connect realm (/protocol/openid-connect/token).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use custom JSON envelopes ({error,message} for Open API;
+    {code,message,requestId} for Realtime), not application/problem+json.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: Deprecation policy relies on new versioned endpoints, no Sunset header documented.
+- id: semver-versioning
+  conforms: partial
+  evidence: Platform reports v1.3.0 but public endpoints are versioned by integer path segment (/api/vN/).
+- id: soc2
+  conforms: true
+  evidence: SOC 2 certification published at https://trust.altruist.com/

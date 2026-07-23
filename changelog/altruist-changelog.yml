@@ -1,0 +1,16 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/
+docs: https://developer.altruist.com/
+scheme: per-endpoint uri-path versioning (/api/vN/)
+current_version: v1.3.0
+notes: >-
+  Altruist's developer portal (ReadMe-hosted) reports a current platform
+  documentation version of v1.3.0 and versions individual endpoints by integer
+  path segment. A dated public changelog feed was not exposed at the time of
+  capture; version history is governed by the versioning and deprecation
+  policies below rather than a chronological changelog.
+entries: []
+policies:
+  versioning: https://developer.altruist.com/docs/versioning-policy
+  deprecation: https://developer.altruist.com/docs/deprecation-policy

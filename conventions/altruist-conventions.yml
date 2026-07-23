@@ -1,0 +1,42 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/docs/overview
+docs:
+- https://developer.altruist.com/docs/open-api-authentication
+- https://developer.altruist.com/docs/http-codes
+- https://developer.altruist.com/docs/error-codes
+- https://developer.altruist.com/docs/versioning-policy
+conventions:
+  authentication:
+    style: oauth2-bearer
+    open_api_flow: authorization_code
+    realtime_api_flow: password (Keycloak/OIDC realm)
+    header: 'Authorization: Bearer <access_token>'
+    detail: authentication/altruist-authentication.yml
+  versioning:
+    style: uri-path
+    pattern: /api/vN/
+    current: v1.3.0
+    detail: lifecycle/altruist-lifecycle.yml
+  error_envelope:
+    realtime: '{ "code": <int>, "message": <string>, "requestId": <uuid> }'
+    open_api: '{ "error": <string>, "message": <string> }'
+    detail: errors/altruist-error-codes.yml
+  request_tracing:
+    field: requestId
+    location: Realtime API error response body
+    note: >-
+      Every Realtime API error carries a `requestId` UUID intended to be quoted
+      to Altruist support for troubleshooting.
+  rate_limiting:
+    signal: HTTP 429 (error "many_requests")
+    documented_headers: none published
+  idempotency:
+    supported: false
+    note: >-
+      Altruist does not document an idempotency-key header. Duplicate-safety is
+      instead enforced server-side via explicit duplicate errors (1002 Duplicate
+      Household Contact, 1004 Already Exists, 1303 Duplicate Funding Account,
+      1304 Duplicate Transfer). No /idempoten/ pointer is emitted.
+  pagination:
+    style: not documented

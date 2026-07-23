@@ -1,0 +1,63 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/docs/error-codes
+docs:
+- https://developer.altruist.com/docs/error-codes
+- https://developer.altruist.com/docs/http-codes
+format: custom-json
+envelopes:
+- api: Altruist Realtime API
+  shape: '{ "code": <int>, "message": <string>, "requestId": <uuid> }'
+  fields:
+    code: numeric error-type identifier
+    message: human-readable description
+    requestId: unique request id to quote to support for troubleshooting
+- api: Altruist Open API
+  shape: '{ "error": <string>, "message": <string> }'
+  note: '404 responses use { "error_type": <string>, "message": <string> }'
+http_codes:
+- status: 200
+  meaning: Successful response for the API request
+- status: 204
+  meaning: No content returned for the API request
+- status: 400
+  meaning: Bad Request
+  example: '{"error":"bad_request","message":"invalid or missing user id"}'
+- status: 401
+  meaning: Unauthorized
+  example: '{"error":"unauthorized","message":"user is not authorized"}'
+- status: 403
+  meaning: Forbidden
+  example: '{"error":"forbidden","message":"User is forbidden to access this resource"}'
+- status: 404
+  meaning: Not Found
+  example: '{"error_type":"resource_not_found","message":"Data feed not found"}'
+- status: 429
+  meaning: Too Many Requests
+  example: '{"error":"many_requests","message":"Too many requests. Please wait and try again later."}'
+- status: 500
+  meaning: Internal Server Error
+  example: '{"error":"internal_error","message":"unable to connect to the data source"}'
+- status: 503
+  meaning: Service Unavailable
+  example: '{"error":"service_unavailable","message":"unable to connect to the service"}'
+error_codes:
+- {code: 0, meaning: Unknown authentication error, http: 500, action: Contact support with requestId}
+- {code: 40, meaning: Unknown Error, http: 500, action: Retry request; escalate if persistent}
+- {code: 101, meaning: Invalid Input, http: 400, action: Review required fields and field constraints}
+- {code: 104, meaning: Not Found, http: 404, action: Verify resource exists and is accessible}
+- {code: 140, meaning: Access Denied, http: 403, action: Confirm user has appropriate permissions}
+- {code: 141, meaning: Unauthorized, http: 401, action: Refresh/validate authentication token}
+- {code: 150, meaning: Not Implemented, http: 501, action: Feature not yet available}
+- {code: 1001, meaning: Household Not Found, http: 404, action: Verify household ID is correct}
+- {code: 1002, meaning: Duplicate Household Contact, http: 409, action: Remove duplicate before retrying}
+- {code: 1003, meaning: Household Contact Not Found, http: 404, action: Confirm contact ID exists}
+- {code: 1004, meaning: Household Contact Already Exists, http: 409, action: Use existing contact or remove first}
+- {code: 1100, meaning: Account Not Found, http: 404, action: Validate account ID}
+- {code: 1110, meaning: Invalid Account Group, http: 400, action: Correct account group specification}
+- {code: 1200, meaning: User Not Found, http: 404, action: Verify user ID}
+- {code: 1201, meaning: User Profile Not Found, http: 404, action: Ensure user profile exists}
+- {code: 1301, meaning: Transfer Not Found, http: 404, action: Check transfer ID}
+- {code: 1302, meaning: Transfer Not Supported, http: 400, action: Verify transfer type is allowed}
+- {code: 1303, meaning: Duplicate Funding Account, http: 409, action: Use existing funding account}
+- {code: 1304, meaning: Duplicate Transfer, http: 409, action: Prevent duplicate creation attempt}

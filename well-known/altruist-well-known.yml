@@ -1,0 +1,18 @@
+generated: '2026-07-17'
+method: searched
+source: live probes of Altruist hosts
+hosts:
+- host: https://developer.altruist.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+- host: https://altruist.com
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+- host: https://openapi.altruist.com
+  documents:
+  - {path: /.well-known/openid-configuration, status: not-probed}
+notes: >-
+  No /.well-known/ discovery documents were served. Altruist's OAuth/OIDC
+  discovery lives on Keycloak realm endpoints
+  (auth.altruist.com/realms/altruist/.well-known/openid-configuration) rather
+  than on the marketing or developer-portal hosts; no security.txt is published.

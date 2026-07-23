@@ -1,0 +1,26 @@
+generated: '2026-07-17'
+method: searched
+source: https://developer.altruist.com/docs/open-api-authentication
+docs: https://developer.altruist.com/docs/open-api-authentication
+schemes:
+- name: OpenAPI-OAuth2-AuthorizationCode
+  api: Altruist Open API
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://oauth.stage1.altruistnet.tech/api/oauth2/authorize
+    tokenUrl: https://openapi.altruist.com/altruist-open-api/oauth2/token
+scopes:
+- scope: openid
+  description: >-
+    OpenID Connect scope requested during the Open API authorization-code flow;
+    yields an ID/access token used as the Authorization header for subsequent
+    Open API requests. Altruist documents `scope=openid` as the value to send on
+    the authorization request.
+  flows: [authorizationCode]
+  sources: [https://developer.altruist.com/docs/open-api-authentication]
+notes: >-
+  Altruist does not publish a granular scope/permission catalog. The Open API
+  authorization request documents a single `openid` scope; access to resources
+  is governed by the partner integration grant and the Altruist user's own
+  permissions rather than fine-grained OAuth scopes. The Realtime API uses a
+  password grant with no scope parameter documented.
