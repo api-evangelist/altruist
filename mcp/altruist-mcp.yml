@@ -2,20 +2,43 @@ generated: '2026-07-17'
 method: derived
 status: candidate
 source: https://developer.altruist.com/docs/endpoints
-note: >-
-  No official hosted/remote Altruist MCP server was found. This is a CANDIDATE
-  tool surface derived from the documented Altruist Open API and Realtime API
-  resources, for a future MCP wrapper. Not an Altruist claim.
+note: No official hosted/remote Altruist MCP server was found. This is a CANDIDATE tool surface derived
+  from the documented Altruist Open API and Realtime API resources, for a future MCP wrapper. Not an Altruist
+  claim.
 server:
   name: altruist
   transport: http
 tools:
-- {name: list_accounts, description: List custody accounts, source: openapi/docs accounts}
-- {name: list_households, description: List households, source: openapi/docs households}
-- {name: list_positions, description: List account positions, source: openapi/docs positions}
-- {name: list_transactions, description: List account transactions, source: openapi/docs transactions}
-- {name: get_cost_basis, description: Retrieve cost-basis / tax-lot data, source: openapi/docs cost_basis}
-- {name: list_contacts, description: List household contacts (Realtime API), source: docs contacts}
-- {name: create_transfer, description: Create a money-movement transfer (Realtime API), source: docs transfers}
-- {name: link_bank_account, description: Link a funding bank account (Realtime API), source: docs bank-link}
-- {name: get_time_weighted_return, description: Retrieve TWR performance (Realtime API), source: docs time-weighted-return-twr}
+- name: list_accounts
+  description: List custody accounts
+  source: openapi/docs accounts
+- name: list_households
+  description: List households
+  source: openapi/docs households
+- name: list_positions
+  description: List account positions
+  source: openapi/docs positions
+- name: list_transactions
+  description: List account transactions
+  source: openapi/docs transactions
+- name: get_cost_basis
+  description: Retrieve cost-basis / tax-lot data
+  source: openapi/docs cost_basis
+- name: list_contacts
+  description: List household contacts (Realtime API)
+  source: docs contacts
+- name: create_transfer
+  description: Create a money-movement transfer (Realtime API)
+  source: docs transfers
+- name: link_bank_account
+  description: Link a funding bank account (Realtime API)
+  source: docs bank-link
+- name: get_time_weighted_return
+  description: Retrieve TWR performance (Realtime API)
+  source: docs time-weighted-return-twr
+deployment:
+  mode: none
+  verified: derived
+  tools: 9
+  checked: '2026-08-12'
+  source: catalog MCP census
