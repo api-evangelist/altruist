@@ -44,6 +44,15 @@ tags:
 - Financial Advisors
 - RIA
 - Investing
+- Authentication
+tags_raw:
+- Company
+- Fintech
+- Custody
+- Wealth Management
+- Financial Advisors
+- RIA
+- Investing
 - OAuth
 apis:
 - name: Altruist Open API
