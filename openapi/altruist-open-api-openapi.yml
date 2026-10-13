@@ -1,0 +1,1980 @@
+openapi: 3.0.0
+info:
+  version: 0.0.2
+  title: Altruist Open API
+  description: A RESTFul API for accessing information from the Altruist Platform. Intended for partners that integrate with the Altruist Platform to access information that is maintained on the platform
+  license:
+    name: MIT
+servers:
+- url: https://openapi.altruist.com/altruist-open-api/
+security:
+- Authorization:
+  - households:read
+  - accounts:read
+  - positions:read
+  - cost_basis:read
+  - transactions:read
+paths:
+  /api/v1/accounts/{household_id}:
+    get:
+      summary: Get a list of accounts for a given household/household
+      description: Get accounts for a given household/household. Returns a list of account ID-s associated with a given household/household.
+      operationId: listAccounts
+      tags:
+      - accounts
+      parameters:
+      - name: household_id
+        in: path
+        description: ID of the household
+        required: true
+        schema:
+          type: string
+        example: f2e7d7530b68dee392284b2ce9c49075d63478502ea4c9de74c41ce6b8d2c5f0
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 1
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: X-API-Request-ID
+        in: header
+        description: household-provided request id
+        required: false
+        schema:
+          type: string
+        example: 2f047e95
+      responses:
+        '200':
+          description: A successful response for /accounts request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/Accounts'
+                    description: a list of account ID-s
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      household_id: f2e7d7530b68dee392284b2ce9c49075d63478502ea4c9de74c41ce6b8d2c5f0
+                      accounts:
+                      - id: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+                        rep_code: 3AAABC
+                        account_type: INDIVIDUAL
+                        account_name: Self-directed IRA
+                        status: ACTIVE
+                        date_open: 2019/01/15
+                        date_closed: null
+                        as_of_date: 2022/08/15
+                        account_balance: 603698
+                      - id: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+                        rep_code: 3AAABC
+                        account_type: INDIVIDUAL
+                        account_name: Roth IRA
+                        status: ACTIVE
+                        date_open: 2018/05/03
+                        date_closed: null
+                        as_of_date: 2022/08/15
+                        account_balance: 12478.36
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '401':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '403':
+          description: Forbidden error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: forbidden
+                    message: User is forbidden to access this resource
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Household not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - accounts:read
+  /api/v1/cost-basis/{account_id}:
+    get:
+      summary: Get the most recent cost basis for a given account
+      description: Get the most recent cost basis for a given account. Returns a list of the most recent cost basis for positions within a given account
+      operationId: listCostBasis
+      tags:
+      - cost-basis
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: X-API-Request-ID
+        in: header
+        description: household-provided request id
+        required: false
+        schema:
+          type: string
+        example: 2f047e95
+      responses:
+        '200':
+          description: A successful response for /cost-basis request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/CostBasis'
+                    description: a list of cost basis
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      account_id: b14233218302b48cdc8164ea4bb55adb730437535e0853e9c9801d366c61214f
+                      cost_basis:
+                      - id: f5b46399dcd17b3a6e4f7142801a32742b3e56c3fa8216a4b518f0e78a91aac2
+                        cusip: 46429B663
+                        symbol: HDV
+                        description: ISHARES CORE HIGH DIVIDEND ETF
+                        quantity: 50
+                        market_value: 5100
+                        cost_basis_unadjusted: 5000
+                        cost_basis_adjusted: 5000
+                        unrealized_gain_loss: 100
+                        as_of_date: 2022/08/15
+                        open_date: 2022/01/15
+                      - id: 12c0039fffadcb3a3a07b263497dfd3e12c784c85fe4797e07ec1197db396180
+                        cusip: 46429B663
+                        symbol: EFA
+                        description: ISHARES MSCI EAFE ETF
+                        quantity: 100
+                        market_value: 7200
+                        cost_basis_unadjusted: 4000
+                        cost_basis_adjusted: 4000
+                        unrealized_gain_loss: 3200
+                        as_of_date: 2022/08/15
+                        open_date: 2021/07/10
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Account not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - cost_basis:read
+  /api/v1/households:
+    get:
+      summary: Get a list of household/household ID-s for the current user
+      description: Get households/households for the current user. Returns a list of ID-s and names of households/households associated with the current user. If a user is a household, returns a household ID associated with that household. If a user is an advisor, returns a list of household ID-s associated with the advisor
+      operationId: listHouseholds
+      tags:
+      - households
+      parameters:
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: name_pattern
+        in: query
+        description: a case-insensitive pattern which if specified must be contained within household or household name
+        required: false
+        schema:
+          type: string
+        example: Smith
+      - name: X-API-Request-ID
+        in: header
+        description: household-provided request id
+        required: false
+        schema:
+          type: string
+        example: 2f047e95
+      responses:
+        '200':
+          description: A successful response for /households request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    $ref: '#/components/schemas/Households'
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      households:
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: The Rogers Family
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: Scott Brown
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - households:read
+  /api/v1/positions/{account_id}:
+    get:
+      summary: Get the most recent positions for a given account
+      description: Get the most recent positions for a given account Returns a list of the most recent positions within a given account
+      operationId: listPositions
+      tags:
+      - positions
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 1
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: X-API-Request-ID
+        in: header
+        description: household-provided request id
+        required: false
+        schema:
+          type: string
+        example: 2f047e95
+      responses:
+        '200':
+          description: A successful response for /positions request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/Positions'
+                    description: a list of positions
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      account_id: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+                      positions:
+                      - id: f5b46399dcd17b3a6e4f7142801a32742b3e56c3fa8216a4b518f0e78a91aac2
+                        cusip: 46429B663
+                        symbol: HDV
+                        description: ISHARES CORE HIGH DIVIDEND ETF
+                        long_short_indicator: long
+                        currency_code: USD
+                        quantity: 50
+                        as_of_date: 2022/08/15
+                        security_type: ETF
+                        market_value: 5100
+                      - id: 974833d6fe6da59bfd66d2ad8f2fe8fd21221e396a167449266b33f1ee1ee5b1
+                        cusip: 46429B663
+                        symbol: EFA
+                        description: ISHARES MSCI EAFE ETF
+                        long_short_indicator: long
+                        currency_code: USD
+                        quantity: 100
+                        as_of_date: 2022/08/15
+                        security_type: ETF
+                        market_value: 7200
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Account not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - positions:read
+  /v2/accounts:
+    get:
+      summary: Get a list of accounts for a given household/household
+      description: Get accounts for a given household/household. Returns a list of account ID-s associated with a given household/household.
+      operationId: listAccountsV2
+      tags:
+      - accounts
+      parameters:
+      - name: household_id
+        in: query
+        description: ID of the household
+        required: true
+        schema:
+          type: string
+        example: f2e7d7530b68dee392284b2ce9c49075d63478502ea4c9de74c41ce6b8d2c5f0
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 1
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      responses:
+        '200':
+          description: A successful response for /accounts request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/Accounts'
+                    description: a list of account ID-s
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      household_id: f2e7d7530b68dee392284b2ce9c49075d63478502ea4c9de74c41ce6b8d2c5f0
+                      accounts:
+                      - id: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+                        rep_code: 3AAABC
+                        account_type: INDIVIDUAL
+                        account_name: Self-directed IRA
+                        status: ACTIVE
+                        date_open: 2019/01/15
+                        date_closed: null
+                        as_of_date: 2022/08/15
+                        account_balance: 603698
+                      - id: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+                        rep_code: 3AAABC
+                        account_type: INDIVIDUAL
+                        account_name: Roth IRA
+                        status: ACTIVE
+                        date_open: 2018/05/03
+                        date_closed: null
+                        as_of_date: 2022/08/15
+                        account_balance: 12478.36
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '401':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '403':
+          description: Forbidden error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: forbidden
+                    message: User is forbidden to access this resource
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Household not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - accounts:read
+  /v2/accounts/{account_id}/cost-basis:
+    get:
+      summary: Get the most recent cost basis for a given account
+      description: Get the most recent cost basis for a given account. Returns a list of the most recent cost basis for positions within a given account
+      operationId: listCostBasisV2
+      tags:
+      - cost-basis
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      responses:
+        '200':
+          description: A successful response for /cost-basis request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/CostBasis'
+                    description: a list of cost basis
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      account_id: b14233218302b48cdc8164ea4bb55adb730437535e0853e9c9801d366c61214f
+                      cost_basis:
+                      - id: f5b46399dcd17b3a6e4f7142801a32742b3e56c3fa8216a4b518f0e78a91aac2
+                        cusip: 46429B663
+                        symbol: HDV
+                        description: ISHARES CORE HIGH DIVIDEND ETF
+                        quantity: 50
+                        market_value: 5100
+                        cost_basis_unadjusted: 5000
+                        cost_basis_adjusted: 5000
+                        unrealized_gain_loss: 100
+                        as_of_date: 2022/08/15
+                        open_date: 2022/01/15
+                      - id: 12c0039fffadcb3a3a07b263497dfd3e12c784c85fe4797e07ec1197db396180
+                        cusip: 46429B663
+                        symbol: EFA
+                        description: ISHARES MSCI EAFE ETF
+                        quantity: 100
+                        market_value: 7200
+                        cost_basis_unadjusted: 4000
+                        cost_basis_adjusted: 4000
+                        unrealized_gain_loss: 3200
+                        as_of_date: 2022/08/15
+                        open_date: 2021/07/10
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Account not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - cost_basis:read
+  /v2/accounts/{account_id}/positions:
+    get:
+      summary: Get the most recent positions for a given account
+      description: Get the most recent positions for a given account Returns a list of the most recent positions within a given account
+      operationId: listPositionsV2
+      tags:
+      - positions
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 1
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      responses:
+        '200':
+          description: A successful response for /positions request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/Positions'
+                    description: a list of positions
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      account_id: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+                      positions:
+                      - id: f5b46399dcd17b3a6e4f7142801a32742b3e56c3fa8216a4b518f0e78a91aac2
+                        cusip: 46429B663
+                        symbol: HDV
+                        description: ISHARES CORE HIGH DIVIDEND ETF
+                        long_short_indicator: long
+                        currency_code: USD
+                        quantity: 50
+                        as_of_date: 2022/08/15
+                        security_type: ETF
+                        market_value: 5100
+                      - id: 974833d6fe6da59bfd66d2ad8f2fe8fd21221e396a167449266b33f1ee1ee5b1
+                        cusip: 46429B663
+                        symbol: EFA
+                        description: ISHARES MSCI EAFE ETF
+                        long_short_indicator: long
+                        currency_code: USD
+                        quantity: 100
+                        as_of_date: 2022/08/15
+                        security_type: ETF
+                        market_value: 7200
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Account not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - positions:read
+  /v2/accounts/{account_id}/transactions:
+    get:
+      summary: Retrieve transaction data for a particular date range
+      description: Get transactions for a particular date range Returns a list of transactions for a given account and a particular date range. By default returns transactions for a past month including the current date
+      operationId: listTransactionsForRangeV2
+      tags:
+      - transactions
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: date_from
+        in: query
+        description: date from (YYYY-MM-DD) for which transactions should be retrieved, defaults to current date minus a month
+        required: false
+        schema:
+          type: string
+          format: date
+        example: '2022-03-31T00:00:00.000Z'
+      - name: date_to
+        in: query
+        description: date to (YYYY-MM-DD) for which transactions should be retrieved, default value is a current date
+        required: false
+        schema:
+          type: string
+          format: date
+        example: '2022-01-01T00:00:00.000Z'
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          default: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          default: 100
+          type: integer
+          format: int32
+        example: 25
+      responses:
+        '200':
+          description: A successful response for /transactions request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/Transactions'
+                    description: a list of transactions
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                    data:
+                      account_number: 3AA08867
+                      transactions:
+                      - id: 64a6c31ce048538c952ace2451b1998efc9bca16c8f7292efc21a416e1054267
+                        cusip: 46429B663
+                        symbol: HDV
+                        security_type: ETF
+                        quantity: 50
+                        price: 100
+                        amount: 5000
+                        interest: 0
+                        currency_code: USD
+                        transaction_type: BUY
+                        transaction_subtype: ''
+                        transaction_description: ISHARES CORE HIGH DIVIDEND ETF
+                        cancellation_reversal_flag: N
+                        transaction_fees: 0
+                        broker_fees: 9.99
+                        other_fees: 0
+                        TEFRA_withheld: 0
+                        state_tax_withheld: 0
+                        as_of_date: '2022-08-04'
+                        transaction_date: '2020-05-04'
+                        settle_date: '2020-05-06'
+                      - id: 64a6c31ce048538c952ace2451b1998efc9bca16c8f7292efc21a416e1054267
+                        cusip: 46429B663
+                        symbol: DIA
+                        security_type: ETF
+                        quantity: 50
+                        price: 295
+                        amount: 14750
+                        interest: 0
+                        currency_code: USD
+                        transaction_type: BUY
+                        transaction_subtype: ''
+                        transaction_description: DOW JONES INDUSTRIAL AVERAGE ETF TRUST
+                        cancellation_reversal_flag: N
+                        transaction_fees: 0
+                        broker_fees: 0
+                        other_fees: 0
+                        TEFRA_withheld: 0
+                        state_tax_withheld: 0
+                        as_of_date: '2020-01-04'
+                        transaction_date: '2020-01-15'
+                        settle_date: '2020-01-17'
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: bad request
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Resource not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: Unable to connect to the data source
+      security:
+      - Authorization:
+        - transactions:read
+  /v2/households:
+    get:
+      summary: Get a list of household/household ID-s for the current user
+      description: Get households/households for the current user. Returns a list of ID-s and names of households/households associated with the current user. If a user is a household, returns a household ID associated with that household. If a user is an advisor, returns a list of household ID-s associated with the advisor
+      operationId: listHouseholdsV2
+      tags:
+      - households
+      parameters:
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: name_pattern
+        in: query
+        description: a case-insensitive pattern which if specified must be contained within household or household name
+        required: false
+        schema:
+          type: string
+        example: Smith
+      responses:
+        '200':
+          description: A successful response for /households request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    $ref: '#/components/schemas/Households'
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      households:
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: The Rogers Family
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: Scott Brown
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - households:read
+  /v2/partners/{partner_code}/data-feed:
+    post:
+      summary: Enable data feed for the current user
+      description: Enable data feed for the current user. Returns data feed details when enabled.
+      operationId: enableDataFeed
+      tags:
+      - data-feed
+      requestBody:
+        description: Request body for the enable data-feed request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataFeedRequestBody'
+      parameters:
+      - name: partner_code
+        in: path
+        description: The unique partner code
+        required: true
+        schema:
+          type: string
+        example: ace
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DataFeed'
+              examples:
+                first:
+                  value:
+                    data:
+                      id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                      data_feed_status: active
+                      message: Data feed will be initiated on the next business day
+                      data_files:
+                      - Demographics
+                      - Positions
+                      - Transactions
+                      repcodes:
+                      - A100
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Data feed not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - data-feed:create
+    get:
+      summary: Get list of data feeds for the current user
+      description: Get list of data feeds for the current user. Returns the list of data feed.
+      operationId: getDataFeeds
+      tags:
+      - data-feed
+      parameters:
+      - name: partner_code
+        in: path
+        description: The unique partner code
+        required: true
+        schema:
+          type: string
+        example: ace
+      responses:
+        '200':
+          description: A successful response for /data-feed request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataFeed'
+              examples:
+                first:
+                  value:
+                    data:
+                      id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                      data_feed_status: active
+                      message: Data feed will be initiated on the next business day
+                      data_files:
+                      - Demographics
+                      - Positions
+                      - Transactions
+                      repcodes:
+                      - A100
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or partner_code
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Data feed not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - data-feed:read
+  /v2/partners/{partner_code}/data-feed/{feed_id}:
+    get:
+      summary: Get status of data feed for the current user
+      description: Get data feed status for the current user. Returns the status of data feed associated with the feed_id.
+      operationId: getDataFeedById
+      tags:
+      - data-feed
+      parameters:
+      - name: partner_code
+        in: path
+        description: The unique partner code
+        required: true
+        schema:
+          type: string
+        example: ace
+      - name: feed_id
+        in: path
+        description: ID of the data feed
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      responses:
+        '200':
+          description: A successful response for /data-feed request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DataFeed'
+              examples:
+                first:
+                  value:
+                    data:
+                      id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                      data_feed_status: active
+                      message: Data feed will be initiated on the next business day
+                      data_files:
+                      - Demographics
+                      - Positions
+                      - Transactions
+                      repcodes:
+                      - A100
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Data feed not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - data-feed:read
+    delete:
+      summary: Disable the data feed for the current user
+      description: Disable data feed for the current user. Returns no content when data feed is disabled
+      operationId: disableDataFeedById
+      tags:
+      - data-feed
+      parameters:
+      - name: partner_code
+        in: path
+        description: The unique partner code
+        required: true
+        schema:
+          type: string
+        example: ace
+      - name: feed_id
+        in: path
+        description: ID of the data feed
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      responses:
+        '204':
+          description: A successful response for delete data-feed request
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Data feed not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - data-feed:delete
+  /v2/partners/{partner_code}/historical-data:
+    post:
+      summary: Request historical data file for the repcode/s under current user's org
+      description: Request historical data file for the repcode/s under current user's org. Returns historical data feed details when enabled.
+      operationId: requestHistoricalDataFile
+      tags:
+      - historical-data-feed
+      requestBody:
+        description: Request body to enable historical-data-feed
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoricalDataFeedRequestBody'
+      parameters:
+      - name: partner_code
+        in: path
+        description: The unique partner code
+        required: true
+        schema:
+          type: string
+        example: ace
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DataFeed'
+              examples:
+                first:
+                  value:
+                    data:
+                      message: Historical Data files will be available in 30 to 60 minutes
+                      data_files:
+                      - path/to/file1
+                      - path/to/file2
+                      repcodes:
+                      - A100
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Repcode not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - historical-data-feed:create
+components:
+  schemas:
+    Pagination:
+      type: object
+      description: Description of a paginated response
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Desired page number, default is 0
+          default: 0
+          example: 1
+        page_size:
+          type: integer
+          format: int32
+          description: Page size, default is 100 items
+          default: 100
+          example: 25
+        total_pages:
+          type: integer
+          format: int32
+          description: Total number of pages
+          default: 1
+          example: 3
+      required:
+      - page
+      - page_size
+      - total_pages
+    Households:
+      description: A list of household/household id-s and names associated with a user
+      type: object
+      properties:
+        households:
+          description: A list of household/household id-s and names
+          type: array
+          items:
+            $ref: '#/components/schemas/Household'
+    Household:
+      type: object
+      description: A description of a household or a household
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          example: be68a94aa8f2f0aa1e345f8a8fbebf3602b2246d3382f69fbd708d3c46e9962b
+          description: the id has length of 64 lower-case alphanumeric chars
+        name:
+          type: string
+          example: The Rogers Family
+    Error:
+      type: object
+      required:
+      - error_type
+      - message
+      properties:
+        error_type:
+          type: string
+          description: Describes the type or source of error
+          enum:
+          - internal_error
+          - bad_request
+          - dependency_unavailable
+          - resource_not_found
+          - resource_already_exists
+          - unauthorized
+          example: unauthorized
+        message:
+          type: string
+          description: Error message corresponding to the error code
+          example: User is not authorized
+    Accounts:
+      type: object
+      description: A description of Accounts associated with a given Household/Household
+      properties:
+        household_id:
+          type: string
+          description: An ID of the Household/Household
+          example: f2e7d7530b68dee392284b2ce9c49075d63478502ea4c9de74c41ce6b8d2c5f0
+        accounts:
+          type: array
+          description: A list of Accounts
+          items:
+            $ref: '#/components/schemas/Account'
+    Account:
+      type: object
+      description: A description of an investment Account
+      required:
+      - id
+      - rep_code
+      - account_number
+      - account_type
+      - account_name
+      - as_of_date
+      - account_balance
+      properties:
+        id:
+          type: string
+          example: 114233218302b48cdc8164ea4bb55adb730437535e0853e9c9801d366c61214f
+          description: the id has length of 64 lower-case alphanumeric chars
+        rep_code:
+          type: string
+          example: 3AAABC
+        account_number:
+          type: string
+          example: 3AA08867
+        account_type:
+          type: string
+          example: INDIVIDUAL
+        account_name:
+          type: string
+          example: Self-directed IRA
+        status:
+          type: string
+          example: ACTIVE
+        date_open:
+          type: string
+          example: 2020/09/18
+        date_closed:
+          type: string
+          example: 2020/11/25
+        as_of_date:
+          type: string
+          example: 2021/03/11
+        account_balance:
+          type: number
+          example: 5607.65
+    Positions:
+      type: object
+      description: A description of positions within a given account
+      properties:
+        account_id:
+          type: string
+          description: Account Id
+          example: 20f2d5c4ef1a51e6d0a002518b1da224fe64f5a60d458dcbc5cb25231af3bed8
+        positions:
+          type: array
+          description: A list of Positions
+          items:
+            $ref: '#/components/schemas/Position'
+    Position:
+      type: object
+      description: A description of a Position
+      required:
+      - id
+      - cusip
+      - symbol
+      - currency_code
+      - quantity
+      - as_of_date
+      properties:
+        id:
+          type: string
+          example: 730f75dafd73e047b86acb2dbd74e75dcb93272fa084a9082848f2341aa1abb6
+          description: the id has length of 64 lower-case alphanumeric chars
+        cusip:
+          type: string
+          example: 46429B663
+        symbol:
+          type: string
+          example: HDV
+        description:
+          type: string
+          example: ISHARES CORE HIGH DIVIDEND ETF
+        security_type:
+          type: string
+          example: null
+        currency_code:
+          type: string
+          example: USD
+        quantity:
+          type: number
+          example: 50
+        market_value:
+          type: number
+          example: 5100
+        price:
+          type: number
+          example: 20
+        as_of_date:
+          type: string
+          example: 2021/03/11
+    CostBasis:
+      type: object
+      description: A description of unrealized cost basis for positions within a given account
+      properties:
+        account_id:
+          type: string
+          description: Account Id
+          example: 20f2d5c4ef1a51e6d0a002518b1da224fe64f5a60d458dcbc5cb25231af3bed8
+        cost_basis:
+          type: array
+          description: A list of Cost Basis
+          items:
+            $ref: '#/components/schemas/CostBasisEntity'
+    CostBasisEntity:
+      type: object
+      description: A description of an Unrealized Cost Basis entity for a given Position
+      required:
+      - id
+      - cusip
+      - symbol
+      - quantity
+      - cost_basis_unadjusted
+      - unrealized_gain_loss
+      - as_of_date
+      - open_date
+      properties:
+        id:
+          type: string
+          example: a7b2c2b8ecdf992cd248877b4df9ecc57e035b5ce27a32a4d3850896bcf7a2d9
+          description: the id has length of 64 lower-case alphanumeric chars
+        cusip:
+          type: string
+          example: 46429B663
+        symbol:
+          type: string
+          example: HDV
+        description:
+          type: string
+          example: ISHARES CORE HIGH DIVIDEND ETF
+        quantity:
+          type: number
+          example: 50
+        market_value:
+          type: number
+          example: 5100
+        cost_basis_unadjusted:
+          type: number
+          example: 5000
+        cost_basis_adjusted:
+          type: number
+          example: 4990.01
+        unrealized_gain_loss:
+          type: number
+          example: 109.99
+        as_of_date:
+          type: string
+          example: 2021/03/11
+        open_date:
+          type: string
+          example: 2021/03/11
+    Transactions:
+      type: object
+      description: A description of Transactions within a given Account
+      properties:
+        account_number:
+          type: string
+          description: Account number
+          example: 3AA08867
+        transactions:
+          type: array
+          description: A list of Transactions
+          items:
+            $ref: '#/components/schemas/Transaction'
+    Transaction:
+      type: object
+      description: A description of a Transaction
+      required:
+      - id
+      - cusip
+      - symbol
+      - amount
+      - currency_code
+      - transaction_type
+      - detailed_transaction_type
+      - cancellation_reversal_flag
+      - transaction_description
+      - transaction_date
+      - quantity
+      - price
+      - settle_date
+      - as_of_date
+      properties:
+        id:
+          type: string
+          example: 64a6c31ce048538c952ace2451b1998efc9bca16c8f7292efc21a416e1054267
+          description: the id has length of 64 lower-case alphanumeric chars
+        cusip:
+          type: string
+          example: 46429B663
+        symbol:
+          type: string
+          example: HDV
+        quantity:
+          type: number
+          example: 50
+        price:
+          type: number
+          example: 100
+        amount:
+          type: number
+          example: 5000
+        currency_code:
+          type: string
+          example: USD
+        transaction_type:
+          type: string
+          example: transfer
+        detailed_transaction_type:
+          type: string
+          example: MONEY TRANSFER
+        transaction_description:
+          type: string
+          example: ISHARES CORE HIGH DIVIDEND ETF
+        cancellation_reversal_flag:
+          type: string
+          example: N
+        as_of_date:
+          type: string
+          example: '2021-03-11T00:00:00.000Z'
+        transaction_date:
+          type: string
+          example: '2020-05-04T00:00:00.000Z'
+        settle_date:
+          type: string
+          example: '2020-05-07T00:00:00.000Z'
+    DataFeed:
+      type: object
+      description: A description of a data feed
+      required:
+      - id
+      - data_files
+      - repcodes
+      properties:
+        id:
+          type: string
+          example: be68a94aa8f2f0aa1e345f8a8fbebf3602b2246d3382f69fbd708d3c46e9962b
+          description: the id has length of 64 lower-case alphanumeric chars
+        data_feed_status:
+          type: string
+          example: active
+        message:
+          type: string
+          example: Data feed will be initiated on the next business day, Historical Data files will be available in 30 to 60 minutes
+        data_files:
+          type: array
+          description: A list of data files
+          items:
+            type: string
+          example:
+          - Transactions
+          - Positions
+          - path/to/historical/file1
+          - path/to/file2
+        repcodes:
+          type: array
+          description: A list of repcodes associated with the authenticated user
+          items:
+            type: string
+          example:
+          - A100
+          - A101
+    DataFeedRequestBody:
+      type: object
+      description: Request body for data feed
+      required:
+      - file_transfer
+      properties:
+        file_transfer:
+          type: string
+          enum:
+          - 'on'
+          - 'off'
+          description: Attribute enabling the data feed
+    HistoricalDataFeedRequestBody:
+      type: object
+      description: Request body for historical data feed
+      required:
+      - repcodes
+      properties:
+        repcodes:
+          type: array
+          description: List of repcodes to include in the historical data
+          items:
+            type: string
+          example:
+          - A100
+          - A101
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      description: Access Token
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/accountsv1.md
+  - https://developer.altruist.com/reference/accountsv2.md
+  - https://developer.altruist.com/reference/costbasisv1.md
+  - https://developer.altruist.com/reference/costbasisv2.md
+  - https://developer.altruist.com/reference/disabledatafeedbyid.md
+  - https://developer.altruist.com/reference/enabledatafeed.md
+  - https://developer.altruist.com/reference/getdatafeedbyid.md
+  - https://developer.altruist.com/reference/getdatafeeds.md
+  - https://developer.altruist.com/reference/householdsv1.md
+  - https://developer.altruist.com/reference/householdsv2.md
+  - https://developer.altruist.com/reference/positionsv1.md
+  - https://developer.altruist.com/reference/positionsv2.md
+  - https://developer.altruist.com/reference/requesthistoricaldatafile.md
+  - https://developer.altruist.com/reference/transactionsv2.md
+  merge:
+    pages: 14
+    deduped: 45
+    conflicts_kept_first: 0
