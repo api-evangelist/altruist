@@ -1,0 +1,334 @@
+openapi: 3.2.0
+info:
+  version: 0.0.2
+  title: Altruist Open Transactions API
+  description: A RESTFul API for accessing information from the Altruist Platform. Intended for partners that integrate with the Altruist Platform to access information that is maintained on the platform
+  license:
+    name: MIT
+servers:
+- url: https://openapi.altruist.com/altruist-open-api/
+security:
+- Authorization:
+  - households:read
+  - accounts:read
+  - positions:read
+  - cost_basis:read
+  - transactions:read
+tags:
+- name: Transactions
+paths:
+  /v2/accounts/{account_id}/transactions:
+    get:
+      summary: Retrieve transaction data for a particular date range
+      description: Get transactions for a particular date range Returns a list of transactions for a given account and a particular date range. By default returns transactions for a past month including the current date
+      operationId: listTransactionsForRangeV2
+      tags:
+      - Transactions
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: date_from
+        in: query
+        description: date from (YYYY-MM-DD) for which transactions should be retrieved, defaults to current date minus a month
+        required: false
+        schema:
+          type: string
+          format: date
+        example: '2022-03-31T00:00:00.000Z'
+      - name: date_to
+        in: query
+        description: date to (YYYY-MM-DD) for which transactions should be retrieved, default value is a current date
+        required: false
+        schema:
+          type: string
+          format: date
+        example: '2022-01-01T00:00:00.000Z'
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          default: 0
+          type: integer
+          format: int32
+        example: 1
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          default: 100
+          type: integer
+          format: int32
+        example: 25
+      responses:
+        '200':
+          description: A successful response for /transactions request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/Transactions'
+                    description: a list of transactions
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                    data:
+                      account_number: 3AA08867
+                      transactions:
+                      - id: 64a6c31ce048538c952ace2451b1998efc9bca16c8f7292efc21a416e1054267
+                        cusip: 46429B663
+                        symbol: HDV
+                        security_type: ETF
+                        quantity: 50
+                        price: 100
+                        amount: 5000
+                        interest: 0
+                        currency_code: USD
+                        transaction_type: BUY
+                        transaction_subtype: ''
+                        transaction_description: ISHARES CORE HIGH DIVIDEND ETF
+                        cancellation_reversal_flag: N
+                        transaction_fees: 0
+                        broker_fees: 9.99
+                        other_fees: 0
+                        TEFRA_withheld: 0
+                        state_tax_withheld: 0
+                        as_of_date: '2022-08-04'
+                        transaction_date: '2020-05-04'
+                        settle_date: '2020-05-06'
+                      - id: 64a6c31ce048538c952ace2451b1998efc9bca16c8f7292efc21a416e1054267
+                        cusip: 46429B663
+                        symbol: DIA
+                        security_type: ETF
+                        quantity: 50
+                        price: 295
+                        amount: 14750
+                        interest: 0
+                        currency_code: USD
+                        transaction_type: BUY
+                        transaction_subtype: ''
+                        transaction_description: DOW JONES INDUSTRIAL AVERAGE ETF TRUST
+                        cancellation_reversal_flag: N
+                        transaction_fees: 0
+                        broker_fees: 0
+                        other_fees: 0
+                        TEFRA_withheld: 0
+                        state_tax_withheld: 0
+                        as_of_date: '2020-01-04'
+                        transaction_date: '2020-01-15'
+                        settle_date: '2020-01-17'
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: bad request
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Resource not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: Unable to connect to the data source
+      security:
+      - Authorization:
+        - transactions:read
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error_type
+      - message
+      properties:
+        error_type:
+          type: string
+          description: Describes the type or source of error
+          enum:
+          - internal_error
+          - bad_request
+          - dependency_unavailable
+          - resource_not_found
+          - resource_already_exists
+          - unauthorized
+          example: unauthorized
+        message:
+          type: string
+          description: Error message corresponding to the error code
+          example: User is not authorized
+    Pagination:
+      type: object
+      description: Description of a paginated response
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Desired page number, default is 0
+          default: 0
+          example: 1
+        page_size:
+          type: integer
+          format: int32
+          description: Page size, default is 100 items
+          default: 100
+          example: 25
+        total_pages:
+          type: integer
+          format: int32
+          description: Total number of pages
+          default: 1
+          example: 3
+      required:
+      - page
+      - page_size
+      - total_pages
+    Transactions:
+      type: object
+      description: A description of Transactions within a given Account
+      properties:
+        account_number:
+          type: string
+          description: Account number
+          example: 3AA08867
+        transactions:
+          type: array
+          description: A list of Transactions
+          items:
+            $ref: '#/components/schemas/Transaction'
+    Transaction:
+      type: object
+      description: A description of a Transaction
+      required:
+      - id
+      - cusip
+      - symbol
+      - amount
+      - currency_code
+      - transaction_type
+      - detailed_transaction_type
+      - cancellation_reversal_flag
+      - transaction_description
+      - transaction_date
+      - quantity
+      - price
+      - settle_date
+      - as_of_date
+      properties:
+        id:
+          type: string
+          example: 64a6c31ce048538c952ace2451b1998efc9bca16c8f7292efc21a416e1054267
+          description: the id has length of 64 lower-case alphanumeric chars
+        cusip:
+          type: string
+          example: 46429B663
+        symbol:
+          type: string
+          example: HDV
+        quantity:
+          type: number
+          example: 50
+        price:
+          type: number
+          example: 100
+        amount:
+          type: number
+          example: 5000
+        currency_code:
+          type: string
+          example: USD
+        transaction_type:
+          type: string
+          example: transfer
+        detailed_transaction_type:
+          type: string
+          example: MONEY TRANSFER
+        transaction_description:
+          type: string
+          example: ISHARES CORE HIGH DIVIDEND ETF
+        cancellation_reversal_flag:
+          type: string
+          example: N
+        as_of_date:
+          type: string
+          example: '2021-03-11T00:00:00.000Z'
+        transaction_date:
+          type: string
+          example: '2020-05-04T00:00:00.000Z'
+        settle_date:
+          type: string
+          example: '2020-05-07T00:00:00.000Z'
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      description: Access Token
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/accountsv1.md
+  - https://developer.altruist.com/reference/accountsv2.md
+  - https://developer.altruist.com/reference/costbasisv1.md
+  - https://developer.altruist.com/reference/costbasisv2.md
+  - https://developer.altruist.com/reference/disabledatafeedbyid.md
+  - https://developer.altruist.com/reference/enabledatafeed.md
+  - https://developer.altruist.com/reference/getdatafeedbyid.md
+  - https://developer.altruist.com/reference/getdatafeeds.md
+  - https://developer.altruist.com/reference/householdsv1.md
+  - https://developer.altruist.com/reference/householdsv2.md
+  - https://developer.altruist.com/reference/positionsv1.md
+  - https://developer.altruist.com/reference/positionsv2.md
+  - https://developer.altruist.com/reference/requesthistoricaldatafile.md
+  - https://developer.altruist.com/reference/transactionsv2.md
+  merge:
+    pages: 14
+    deduped: 45
+    conflicts_kept_first: 0

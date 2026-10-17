@@ -1,0 +1,1982 @@
+openapi: 3.2.0
+info:
+  title: Enterprise Realtime Account Draft Bundles API
+  description: The Enterprise Realtime API service acts as the public API layer for advisor infrastructure, enabling partner-developers to programmatically perform advisor actions.
+  version: v1
+servers:
+- url: https://integrations.altruist.com
+  description: API Server
+tags:
+- name: Account Draft Bundles
+  description: Multi-account draft bundle management
+paths:
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles:
+    get:
+      tags:
+      - Account Draft Bundles
+      operationId: listBundles
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 50
+          maximum: 200
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseBundleV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: List bundles
+      x-summary-source: derived
+    post:
+      tags:
+      - Account Draft Bundles
+      operationId: createBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BundleV1Request'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BundleV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Create bundle
+      x-summary-source: derived
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}:
+    get:
+      tags:
+      - Account Draft Bundles
+      operationId: getBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BundleV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Get bundle
+      x-summary-source: derived
+    delete:
+      tags:
+      - Account Draft Bundles
+      operationId: deleteBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Delete bundle
+      x-summary-source: derived
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts:
+    get:
+      tags:
+      - Account Draft Bundles
+      operationId: listDraftsInBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 50
+          maximum: 200
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseAccountDraftV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: List drafts in bundle
+      x-summary-source: derived
+    post:
+      tags:
+      - Account Draft Bundles
+      operationId: createDraftInBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/BeneficiaryIraAccountDraftV1'
+              - $ref: '#/components/schemas/CustodialAccountDraftV1'
+              - $ref: '#/components/schemas/IndividualAccountDraftV1'
+              - $ref: '#/components/schemas/IndividualCashManagementAccountDraftV1'
+              - $ref: '#/components/schemas/IraAccountDraftV1'
+              - $ref: '#/components/schemas/JointCashAccountDraftV1'
+              - $ref: '#/components/schemas/JointWrosAccountDraftV1'
+              - $ref: '#/components/schemas/MinorRetirementAccountDraftV1'
+              - $ref: '#/components/schemas/RolloverIraAccountDraftV1'
+              - $ref: '#/components/schemas/RothIraAccountDraftV1'
+              - $ref: '#/components/schemas/SimpleIraAccountDraftV1'
+              - $ref: '#/components/schemas/Solo401kAccountDraftV1'
+              - $ref: '#/components/schemas/TrustAccountDraftV1'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BeneficiaryIraAccountDraftV1'
+                - $ref: '#/components/schemas/CustodialAccountDraftV1'
+                - $ref: '#/components/schemas/IndividualAccountDraftV1'
+                - $ref: '#/components/schemas/IndividualCashManagementAccountDraftV1'
+                - $ref: '#/components/schemas/IraAccountDraftV1'
+                - $ref: '#/components/schemas/JointCashAccountDraftV1'
+                - $ref: '#/components/schemas/JointWrosAccountDraftV1'
+                - $ref: '#/components/schemas/MinorRetirementAccountDraftV1'
+                - $ref: '#/components/schemas/RolloverIraAccountDraftV1'
+                - $ref: '#/components/schemas/RothIraAccountDraftV1'
+                - $ref: '#/components/schemas/SimpleIraAccountDraftV1'
+                - $ref: '#/components/schemas/Solo401kAccountDraftV1'
+                - $ref: '#/components/schemas/TrustAccountDraftV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Create draft in bundle
+      x-summary-source: derived
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts/{draftId}:
+    put:
+      tags:
+      - Account Draft Bundles
+      operationId: associateDraftToBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BeneficiaryIraAccountDraftV1'
+                - $ref: '#/components/schemas/CustodialAccountDraftV1'
+                - $ref: '#/components/schemas/IndividualAccountDraftV1'
+                - $ref: '#/components/schemas/IndividualCashManagementAccountDraftV1'
+                - $ref: '#/components/schemas/IraAccountDraftV1'
+                - $ref: '#/components/schemas/JointCashAccountDraftV1'
+                - $ref: '#/components/schemas/JointWrosAccountDraftV1'
+                - $ref: '#/components/schemas/MinorRetirementAccountDraftV1'
+                - $ref: '#/components/schemas/RolloverIraAccountDraftV1'
+                - $ref: '#/components/schemas/RothIraAccountDraftV1'
+                - $ref: '#/components/schemas/SimpleIraAccountDraftV1'
+                - $ref: '#/components/schemas/Solo401kAccountDraftV1'
+                - $ref: '#/components/schemas/TrustAccountDraftV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Associate draft to bundle
+      x-summary-source: derived
+    delete:
+      tags:
+      - Account Draft Bundles
+      operationId: removeDraftFromBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Remove draft from bundle
+      x-summary-source: derived
+    patch:
+      tags:
+      - Account Draft Bundles
+      operationId: updateDraftInBundle
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/BeneficiaryIraAccountDraftV1'
+              - $ref: '#/components/schemas/CustodialAccountDraftV1'
+              - $ref: '#/components/schemas/IndividualAccountDraftV1'
+              - $ref: '#/components/schemas/IndividualCashManagementAccountDraftV1'
+              - $ref: '#/components/schemas/IraAccountDraftV1'
+              - $ref: '#/components/schemas/JointCashAccountDraftV1'
+              - $ref: '#/components/schemas/JointWrosAccountDraftV1'
+              - $ref: '#/components/schemas/MinorRetirementAccountDraftV1'
+              - $ref: '#/components/schemas/RolloverIraAccountDraftV1'
+              - $ref: '#/components/schemas/RothIraAccountDraftV1'
+              - $ref: '#/components/schemas/SimpleIraAccountDraftV1'
+              - $ref: '#/components/schemas/Solo401kAccountDraftV1'
+              - $ref: '#/components/schemas/TrustAccountDraftV1'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BeneficiaryIraAccountDraftV1'
+                - $ref: '#/components/schemas/CustodialAccountDraftV1'
+                - $ref: '#/components/schemas/IndividualAccountDraftV1'
+                - $ref: '#/components/schemas/IndividualCashManagementAccountDraftV1'
+                - $ref: '#/components/schemas/IraAccountDraftV1'
+                - $ref: '#/components/schemas/JointCashAccountDraftV1'
+                - $ref: '#/components/schemas/JointWrosAccountDraftV1'
+                - $ref: '#/components/schemas/MinorRetirementAccountDraftV1'
+                - $ref: '#/components/schemas/RolloverIraAccountDraftV1'
+                - $ref: '#/components/schemas/RothIraAccountDraftV1'
+                - $ref: '#/components/schemas/SimpleIraAccountDraftV1'
+                - $ref: '#/components/schemas/Solo401kAccountDraftV1'
+                - $ref: '#/components/schemas/TrustAccountDraftV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Update draft in bundle
+      x-summary-source: derived
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts/{draftId}/eligibility:
+    get:
+      tags:
+      - Account Draft Bundles
+      operationId: checkDraftEligibility
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BundleDraftEligibilityV1'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+      summary: Check draft eligibility
+      x-summary-source: derived
+components:
+  schemas:
+    RothIraAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - RothIRA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+      title: RothIraAccountDraftV1
+    Solo401kDetailsV1:
+      type: object
+      properties:
+        planAdministrator:
+          type: string
+        planEffectiveDate:
+          type: string
+          format: date
+        employerUserId:
+          type: string
+          format: uuid
+          description: Must reference a user created with profileType Employer. Exactly one of employerUserId or (adoptingEmployerName and adoptingEmployerAddress) is required.
+        participantType:
+          type: string
+          description: Only "BusinessOwner" is supported today. Defaults to "BusinessOwner" when omitted.
+          enum:
+          - BusinessOwner
+        adoptingEmployerName:
+          type: string
+          description: The employer's name. Required together with adoptingEmployerAddress when employerUserId is not supplied.
+        adoptingEmployerAddress:
+          $ref: '#/components/schemas/AddressV1'
+          description: The employer's address. Required together with adoptingEmployerName when employerUserId is not supplied.
+    SimpleIraAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          planName:
+            type: string
+          planTaxId:
+            type: string
+            description: The plan's tax ID (EIN).
+          planType:
+            type: string
+          planDetails:
+            $ref: '#/components/schemas/PlanDetailsV1'
+          accountType:
+            enum:
+            - SimpleIRA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          planName:
+            type: string
+          planTaxId:
+            type: string
+            description: The plan's tax ID (EIN).
+          planType:
+            type: string
+          planDetails:
+            $ref: '#/components/schemas/PlanDetailsV1'
+      title: SimpleIraAccountDraftV1
+    PlanDetailsV1:
+      type: object
+      properties:
+        employerUserId:
+          type: string
+          format: uuid
+          description: Must reference a user created with profileType Employer. Exactly one of employerUserId or (adoptingEmployerName and adoptingEmployerAddress) is required.
+        participantUserId:
+          type: string
+          format: uuid
+          description: An existing participant's id; this API offers no way to create one.
+        adoptingEmployerName:
+          type: string
+          description: The employer's name. Required together with adoptingEmployerAddress when employerUserId is not supplied.
+        adoptingEmployerAddress:
+          $ref: '#/components/schemas/AddressV1'
+          description: The employer's address. Required together with adoptingEmployerName when employerUserId is not supplied.
+    IndividualCashManagementAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - IndividualCashManagement
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+      title: IndividualCashManagementAccountDraftV1
+    JointWrosAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          jointUserId:
+            type: string
+            format: uuid
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - JointTenantsWROS
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          jointUserId:
+            type: string
+            format: uuid
+      title: JointWrosAccountDraftV1
+    PageResponseBundleV1:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BundleV1'
+    TrustAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          trust:
+            $ref: '#/components/schemas/TrustV1'
+          trustUserIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - Retirement
+            - DistributionOfEstate
+            - InvestingOfTrustAssets
+          accountType:
+            enum:
+            - Trust
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          trust:
+            $ref: '#/components/schemas/TrustV1'
+          trustUserIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+      title: TrustAccountDraftV1
+    BundleV1Request:
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdByUserId:
+          type: string
+          format: uuid
+          description: This field cannot be modified by the user.
+          readOnly: true
+        drafts:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/BeneficiaryIraAccountDraftV1'
+            - $ref: '#/components/schemas/CustodialAccountDraftV1'
+            - $ref: '#/components/schemas/IndividualAccountDraftV1'
+            - $ref: '#/components/schemas/IndividualCashManagementAccountDraftV1'
+            - $ref: '#/components/schemas/IraAccountDraftV1'
+            - $ref: '#/components/schemas/JointCashAccountDraftV1'
+            - $ref: '#/components/schemas/JointWrosAccountDraftV1'
+            - $ref: '#/components/schemas/MinorRetirementAccountDraftV1'
+            - $ref: '#/components/schemas/RolloverIraAccountDraftV1'
+            - $ref: '#/components/schemas/RothIraAccountDraftV1'
+            - $ref: '#/components/schemas/SimpleIraAccountDraftV1'
+            - $ref: '#/components/schemas/Solo401kAccountDraftV1'
+            - $ref: '#/components/schemas/TrustAccountDraftV1'
+          maxItems: 10
+          minItems: 1
+      required:
+      - drafts
+    CustodialAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          minorUserId:
+            type: string
+            format: uuid
+            description: The minor the custodial account is opened for. Must reference a user created with profileType Minor and must not equal ownerId.
+          custodialState:
+            type: string
+            description: The governing state for the custodial account.
+          accountType:
+            enum:
+            - UGMA
+            - UTMA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          minorUserId:
+            type: string
+            format: uuid
+            description: The minor the custodial account is opened for. Must reference a user created with profileType Minor and must not equal ownerId.
+          custodialState:
+            type: string
+            description: The governing state for the custodial account.
+      title: CustodialAccountDraftV1
+    BundleDraftEligibilityV1:
+      type: object
+      properties:
+        draftId:
+          type: string
+          format: uuid
+        accountDraftBundleId:
+          type: string
+          format: uuid
+        eligible:
+          type: boolean
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibilityReasonV1'
+    TrustV1:
+      type: object
+      properties:
+        name:
+          type: string
+        taxIdType:
+          type: string
+          enum:
+          - EID
+          - SSN
+          - Unknown
+        taxId:
+          type: string
+        dateEstablished:
+          type: string
+          format: date-time
+    PageResponseAccountDraftV1:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountDraftV1'
+    Solo401kAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          planName:
+            type: string
+          planTaxId:
+            type: string
+            description: The plan's tax ID (EIN).
+          solo401kDetails:
+            $ref: '#/components/schemas/Solo401kDetailsV1'
+          accountType:
+            enum:
+            - RothSolo401k
+            - Solo401k
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          planName:
+            type: string
+          planTaxId:
+            type: string
+            description: The plan's tax ID (EIN).
+          solo401kDetails:
+            $ref: '#/components/schemas/Solo401kDetailsV1'
+      title: Solo401kAccountDraftV1
+    ErrorV1:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: '### Error Codes
+
+
+            | Code   | Description                         |
+
+            |--------|-------------------------------------|
+
+            | **0xx** | **Unknown or Unexpected**          |
+
+            | 0    | Unknown error                         |
+
+            | 40   | Unknown authentication error          |
+
+            | **1xx** | **General**                        |
+
+            | 101  | Invalid input                         |
+
+            | 104  | Not found                             |
+
+            | 140  | Access Denied                         |
+
+            | 141  | Unauthorized                          |
+
+            | 150  | Not implemented                       |
+
+            | **10xx** | **Household**                     |
+
+            | 1000 | Household not found                   |
+
+            | 1001 | Duplicate contact                     |
+
+            | 1002 | Household contact not found           |
+
+            | 1003 | Household contact already exists      |
+
+            | **11xx** | **Account**                       |
+
+            | 1100 | Account not found                     |
+
+            | 1110 | Invalid account group                 |
+
+            | **12xx** | **User**                          |
+
+            | 1200 | User not found                        |
+
+            | 1201 | User profile not found                |
+
+            | **13xx** | **Transfer**                      |
+
+            | 1300 | Transfer not found                    |
+
+            | 1301 | Transfer not supported                |
+
+            | 1302 | Duplicate transfer                    |
+
+            | 1303 | Funding account not found             |
+
+            | 1304 | Duplicate funding account             |
+
+            | **14xx** | **Client Agreement**              |
+
+            | 1400 | Client Agreement not found            |
+
+            | 1401 | Invalid Client Agreement file         |
+
+            | 1402 | Client Agreement could not be updated |
+
+            | **15xx** | **Trusted Contact**               |
+
+            | 1500 | Trusted Contact not found             |
+
+            | **17xx** | **Cash Set Aside**                |
+
+            | 1700 | Cash set aside not found              |
+
+            | 1701 | Cash set aside invalid amount         |
+
+            | 1702 | Cash set aside invalid date           |
+
+            | 1703 | Cash set aside upstream error         |
+
+            | 1704 | Cash set aside cannot be cancelled    |
+
+            | 1705 | Cash set aside invalid account        |
+
+            | **18xx** | **Cash Settings**                 |
+
+            | 1800 | Cash settings not found               |
+
+            '
+        message:
+          type: string
+        requestId:
+          type: string
+    AccountDraftV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountType:
+          type: string
+          description: This field cannot be updated once the accountDraft is created.
+          enum:
+          - Individual
+          - IRA
+          - RothIRA
+          - RolloverIRA
+          - JointTenantsWROS
+          - IndividualCashManagement
+          - JointCash
+          - BeneficiaryIRA
+          - Trust
+          - RothSolo401k
+          - TrustCashManagement
+          - SingleMemberLlcCashManagement
+          - CCorporationCashManagement
+          - SCorporationCashManagement
+          - LlcSCorporationCashManagement
+          - NonProfitOrganizationCashManagement
+          - SepIRA
+          - RothBeneficiaryIRA
+          - SimpleIRA
+          - Solo401k
+          - RetirementTrust
+          - JointCommunityProperty
+          - JointTenantsInCommon
+          - JointTenantsByTheEntirety
+          - UTMA
+          - UGMA
+          - MinorRothIRA
+          - MinorIRA
+          - SoleProprietorship
+          - SingleMemberLlc
+          - CCorp
+          - SCorp
+          - LlcSCorporation
+          - LlcCCorporation
+          - Partnership
+          - LlcPartnership
+          - NonProfit
+          - Estate
+        accountGroupId:
+          type: string
+          description: This field cannot be updated once the accountDraft is created.
+        state:
+          type: string
+          enum:
+          - Draft
+          - Invited
+          - Pending
+          - Completed
+          - NeedsAction
+          - Funded
+          - InProgress
+          - AwaitingFunds
+        sourceOfFunds:
+          type: string
+          enum: []
+        accountPurpose:
+          type: string
+          enum: []
+        accountId:
+          type: string
+          format: uuid
+          description: This field cannot be updated once the accountDraft is created.
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          description: This field cannot be modified by the user.
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          description: This field cannot be modified by the user.
+          readOnly: true
+    IraAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - IRA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+      title: IraAccountDraftV1
+    RolloverIraAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - RolloverIRA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+      title: RolloverIraAccountDraftV1
+    AddressV1:
+      type: object
+      properties:
+        addr1:
+          type: string
+        addr2:
+          type: string
+        addr3:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+      required:
+      - addr1
+      - city
+      - country
+      - state
+      - zipCode
+    EligibilityReasonV1:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        title:
+          type: string
+        detail:
+          type: string
+    DecedentV1:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date-time
+        dateOfDeath:
+          type: string
+          format: date-time
+        socialSecurityNumber:
+          type: string
+    BeneficiaryIraAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          decedent:
+            $ref: '#/components/schemas/DecedentV1'
+          sourceOfFunds:
+            enum:
+            - Gift
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+            - DistributionOfEstate
+          accountType:
+            enum:
+            - BeneficiaryIRA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          decedent:
+            $ref: '#/components/schemas/DecedentV1'
+      title: BeneficiaryIraAccountDraftV1
+    JointCashAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          jointUserId:
+            type: string
+            format: uuid
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - JointCash
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          jointUserId:
+            type: string
+            format: uuid
+      title: JointCashAccountDraftV1
+    MinorRetirementAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          minorUserId:
+            type: string
+            format: uuid
+            description: The minor the retirement account is opened for. Must reference a user created with profileType Minor and must not equal ownerId.
+          accountType:
+            enum:
+            - MinorIRA
+            - MinorRothIRA
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          minorUserId:
+            type: string
+            format: uuid
+            description: The minor the retirement account is opened for. Must reference a user created with profileType Minor and must not equal ownerId.
+      title: MinorRetirementAccountDraftV1
+    BundleV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdByUserId:
+          type: string
+          format: uuid
+          description: This field cannot be modified by the user.
+          readOnly: true
+        drafts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountDraftV1'
+          maxItems: 10
+          minItems: 1
+      required:
+      - drafts
+    IndividualAccountDraftV1:
+      allOf:
+      - $ref: '#/components/schemas/AccountDraftV1'
+      - type: object
+        properties:
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+          sourceOfFunds:
+            enum:
+            - Gift
+            - Employment
+            - Alimony
+            - Insurance
+            - Unemployment
+            - Savings
+          accountPurpose:
+            enum:
+            - InvestingFrequentWithdrawals
+            - InvestingOccasionalWithdrawals
+            - Retirement
+            - TuitionSavings
+            - EstateTaxPlanning
+          accountType:
+            enum:
+            - Individual
+      - type: object
+        properties:
+          accountGroupId:
+            type: string
+            description: This field cannot be updated once the accountDraft is created.
+          ownerId:
+            type: string
+            format: uuid
+            description: This field cannot be updated once the accountDraft is created.
+      title: IndividualAccountDraftV1
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
+  - https://developer.altruist.com/reference/assignaccounttohousehold.md
+  - https://developer.altruist.com/reference/associatedrafttobundle.md
+  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
+  - https://developer.altruist.com/reference/cancelacattransfer.md
+  - https://developer.altruist.com/reference/cancelcashsetaside.md
+  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
+  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
+  - https://developer.altruist.com/reference/checkdrafteligibility.md
+  - https://developer.altruist.com/reference/createaccountgroup.md
+  - https://developer.altruist.com/reference/createbanklink.md
+  - https://developer.altruist.com/reference/createbeneficiary.md
+  - https://developer.altruist.com/reference/createbundle.md
+  - https://developer.altruist.com/reference/createcashsetaside.md
+  - https://developer.altruist.com/reference/createcashtransfer-1.md
+  - https://developer.altruist.com/reference/createdraftinbundle.md
+  - https://developer.altruist.com/reference/createfundingaccount-1.md
+  - https://developer.altruist.com/reference/createhousehold.md
+  - https://developer.altruist.com/reference/createhouseholdcontact.md
+  - https://developer.altruist.com/reference/createinvite.md
+  - https://developer.altruist.com/reference/createlinktoken.md
+  - https://developer.altruist.com/reference/createplaidfundingaccount.md
+  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
+  - https://developer.altruist.com/reference/createtransfer-1.md
+  - https://developer.altruist.com/reference/createuser.md
+  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
+  - https://developer.altruist.com/reference/deletebanklink.md
+  - https://developer.altruist.com/reference/deletebeneficiary.md
+  - https://developer.altruist.com/reference/deletebundle.md
+  - https://developer.altruist.com/reference/deleteclientagreement-1.md
+  - https://developer.altruist.com/reference/deletehousehold.md
+  - https://developer.altruist.com/reference/deletetransfer-1.md
+  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
+  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
+  - https://developer.altruist.com/reference/getacattransfer.md
+  - https://developer.altruist.com/reference/getaccount.md
+  - https://developer.altruist.com/reference/getaccountcashsettings.md
+  - https://developer.altruist.com/reference/getaccountgroup.md
+  - https://developer.altruist.com/reference/getaccountgroups.md
+  - https://developer.altruist.com/reference/getaccountportfolio-1.md
+  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
+  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
+  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
+  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
+  - https://developer.altruist.com/reference/getalltransfers-1.md
+  - https://developer.altruist.com/reference/getbanklink.md
+  - https://developer.altruist.com/reference/getbeneficiary.md
+  - https://developer.altruist.com/reference/getbundle.md
+  - https://developer.altruist.com/reference/getcashsetaside.md
+  - https://developer.altruist.com/reference/getcashsummary-1.md
+  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
+  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
+  - https://developer.altruist.com/reference/getcontributionlimits-1.md
+  - https://developer.altruist.com/reference/getfundingaccount-1.md
+  - https://developer.altruist.com/reference/gethouseholdbyid.md
+  - https://developer.altruist.com/reference/gethouseholdcontact.md
+  - https://developer.altruist.com/reference/gethouseholdcontacts.md
+  - https://developer.altruist.com/reference/getinvite.md
+  - https://developer.altruist.com/reference/getinvitestatus.md
+  - https://developer.altruist.com/reference/getmmasettings.md
+  - https://developer.altruist.com/reference/getmodel-1.md
+  - https://developer.altruist.com/reference/getpointsofcontact.md
+  - https://developer.altruist.com/reference/getportfolio-1.md
+  - https://developer.altruist.com/reference/getportfolios-1.md
+  - https://developer.altruist.com/reference/getportfolios_1-1.md
+  - https://developer.altruist.com/reference/getsecurities-1.md
+  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
+  - https://developer.altruist.com/reference/gettransferbyid-1.md
+  - https://developer.altruist.com/reference/gettrustedcontact-1.md
+  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
+  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
+  - https://developer.altruist.com/reference/initiateacattransfer.md
+  - https://developer.altruist.com/reference/listacattransfers.md
+  - https://developer.altruist.com/reference/listaccounts.md
+  - https://developer.altruist.com/reference/listbanklinks.md
+  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
+  - https://developer.altruist.com/reference/listbeneficiaries.md
+  - https://developer.altruist.com/reference/listbundles.md
+  - https://developer.altruist.com/reference/listcashsetasides.md
+  - https://developer.altruist.com/reference/listcashtransfers-1.md
+  - https://developer.altruist.com/reference/listdraftsinbundle.md
+  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
+  - https://developer.altruist.com/reference/listhouseholdaccounts.md
+  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
+  - https://developer.altruist.com/reference/removedraftfrombundle.md
+  - https://developer.altruist.com/reference/resendacatconfirmation.md
+  - https://developer.altruist.com/reference/setallocations.md
+  - https://developer.altruist.com/reference/unassignaccount.md
+  - https://developer.altruist.com/reference/updateaccount.md
+  - https://developer.altruist.com/reference/updatebeneficiary.md
+  - https://developer.altruist.com/reference/updateclientagreement-1.md
+  - https://developer.altruist.com/reference/updatedraftinbundle.md
+  - https://developer.altruist.com/reference/updatefundingaccount-1.md
+  - https://developer.altruist.com/reference/updatehousehold.md
+  - https://developer.altruist.com/reference/updatetransfer-1.md
+  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
+  - https://developer.altruist.com/reference/updateuserprofile.md
+  - https://developer.altruist.com/reference/validatecashsetaside.md
+  merge:
+    pages: 98
+    deduped: 228
+    conflicts_kept_first: 0

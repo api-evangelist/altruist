@@ -1,0 +1,413 @@
+openapi: 3.2.0
+info:
+  version: 0.0.2
+  title: Altruist Open Cost Basis API
+  description: A RESTFul API for accessing information from the Altruist Platform. Intended for partners that integrate with the Altruist Platform to access information that is maintained on the platform
+  license:
+    name: MIT
+servers:
+- url: https://openapi.altruist.com/altruist-open-api/
+security:
+- Authorization:
+  - households:read
+  - accounts:read
+  - positions:read
+  - cost_basis:read
+  - transactions:read
+tags:
+- name: cost-basis
+paths:
+  /api/v1/cost-basis/{account_id}:
+    get:
+      summary: Get the most recent cost basis for a given account
+      description: Get the most recent cost basis for a given account. Returns a list of the most recent cost basis for positions within a given account
+      operationId: listCostBasis
+      tags:
+      - cost-basis
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: X-API-Request-ID
+        in: header
+        description: household-provided request id
+        required: false
+        schema:
+          type: string
+        example: 2f047e95
+      responses:
+        '200':
+          description: A successful response for /cost-basis request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/CostBasis'
+                    description: a list of cost basis
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      account_id: b14233218302b48cdc8164ea4bb55adb730437535e0853e9c9801d366c61214f
+                      cost_basis:
+                      - id: f5b46399dcd17b3a6e4f7142801a32742b3e56c3fa8216a4b518f0e78a91aac2
+                        cusip: 46429B663
+                        symbol: HDV
+                        description: ISHARES CORE HIGH DIVIDEND ETF
+                        quantity: 50
+                        market_value: 5100
+                        cost_basis_unadjusted: 5000
+                        cost_basis_adjusted: 5000
+                        unrealized_gain_loss: 100
+                        as_of_date: 2022/08/15
+                        open_date: 2022/01/15
+                      - id: 12c0039fffadcb3a3a07b263497dfd3e12c784c85fe4797e07ec1197db396180
+                        cusip: 46429B663
+                        symbol: EFA
+                        description: ISHARES MSCI EAFE ETF
+                        quantity: 100
+                        market_value: 7200
+                        cost_basis_unadjusted: 4000
+                        cost_basis_adjusted: 4000
+                        unrealized_gain_loss: 3200
+                        as_of_date: 2022/08/15
+                        open_date: 2021/07/10
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Account not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - cost_basis:read
+  /v2/accounts/{account_id}/cost-basis:
+    get:
+      summary: Get the most recent cost basis for a given account
+      description: Get the most recent cost basis for a given account. Returns a list of the most recent cost basis for positions within a given account
+      operationId: listCostBasisV2
+      tags:
+      - cost-basis
+      parameters:
+      - name: account_id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: string
+        example: c87d1cd9511f5ab47d2eb9b55afb0bf6a23346e6af9b8b7e709a19389b93e989
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      responses:
+        '200':
+          description: A successful response for /cost-basis request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                    description: paging information for response
+                  data:
+                    $ref: '#/components/schemas/CostBasis'
+                    description: a list of cost basis
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      account_id: b14233218302b48cdc8164ea4bb55adb730437535e0853e9c9801d366c61214f
+                      cost_basis:
+                      - id: f5b46399dcd17b3a6e4f7142801a32742b3e56c3fa8216a4b518f0e78a91aac2
+                        cusip: 46429B663
+                        symbol: HDV
+                        description: ISHARES CORE HIGH DIVIDEND ETF
+                        quantity: 50
+                        market_value: 5100
+                        cost_basis_unadjusted: 5000
+                        cost_basis_adjusted: 5000
+                        unrealized_gain_loss: 100
+                        as_of_date: 2022/08/15
+                        open_date: 2022/01/15
+                      - id: 12c0039fffadcb3a3a07b263497dfd3e12c784c85fe4797e07ec1197db396180
+                        cusip: 46429B663
+                        symbol: EFA
+                        description: ISHARES MSCI EAFE ETF
+                        quantity: 100
+                        market_value: 7200
+                        cost_basis_unadjusted: 4000
+                        cost_basis_adjusted: 4000
+                        unrealized_gain_loss: 3200
+                        as_of_date: 2022/08/15
+                        open_date: 2021/07/10
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Account not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - cost_basis:read
+components:
+  schemas:
+    CostBasisEntity:
+      type: object
+      description: A description of an Unrealized Cost Basis entity for a given Position
+      required:
+      - id
+      - cusip
+      - symbol
+      - quantity
+      - cost_basis_unadjusted
+      - unrealized_gain_loss
+      - as_of_date
+      - open_date
+      properties:
+        id:
+          type: string
+          example: a7b2c2b8ecdf992cd248877b4df9ecc57e035b5ce27a32a4d3850896bcf7a2d9
+          description: the id has length of 64 lower-case alphanumeric chars
+        cusip:
+          type: string
+          example: 46429B663
+        symbol:
+          type: string
+          example: HDV
+        description:
+          type: string
+          example: ISHARES CORE HIGH DIVIDEND ETF
+        quantity:
+          type: number
+          example: 50
+        market_value:
+          type: number
+          example: 5100
+        cost_basis_unadjusted:
+          type: number
+          example: 5000
+        cost_basis_adjusted:
+          type: number
+          example: 4990.01
+        unrealized_gain_loss:
+          type: number
+          example: 109.99
+        as_of_date:
+          type: string
+          example: 2021/03/11
+        open_date:
+          type: string
+          example: 2021/03/11
+    Pagination:
+      type: object
+      description: Description of a paginated response
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Desired page number, default is 0
+          default: 0
+          example: 1
+        page_size:
+          type: integer
+          format: int32
+          description: Page size, default is 100 items
+          default: 100
+          example: 25
+        total_pages:
+          type: integer
+          format: int32
+          description: Total number of pages
+          default: 1
+          example: 3
+      required:
+      - page
+      - page_size
+      - total_pages
+    CostBasis:
+      type: object
+      description: A description of unrealized cost basis for positions within a given account
+      properties:
+        account_id:
+          type: string
+          description: Account Id
+          example: 20f2d5c4ef1a51e6d0a002518b1da224fe64f5a60d458dcbc5cb25231af3bed8
+        cost_basis:
+          type: array
+          description: A list of Cost Basis
+          items:
+            $ref: '#/components/schemas/CostBasisEntity'
+    Error:
+      type: object
+      required:
+      - error_type
+      - message
+      properties:
+        error_type:
+          type: string
+          description: Describes the type or source of error
+          enum:
+          - internal_error
+          - bad_request
+          - dependency_unavailable
+          - resource_not_found
+          - resource_already_exists
+          - unauthorized
+          example: unauthorized
+        message:
+          type: string
+          description: Error message corresponding to the error code
+          example: User is not authorized
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      description: Access Token
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/accountsv1.md
+  - https://developer.altruist.com/reference/accountsv2.md
+  - https://developer.altruist.com/reference/costbasisv1.md
+  - https://developer.altruist.com/reference/costbasisv2.md
+  - https://developer.altruist.com/reference/disabledatafeedbyid.md
+  - https://developer.altruist.com/reference/enabledatafeed.md
+  - https://developer.altruist.com/reference/getdatafeedbyid.md
+  - https://developer.altruist.com/reference/getdatafeeds.md
+  - https://developer.altruist.com/reference/householdsv1.md
+  - https://developer.altruist.com/reference/householdsv2.md
+  - https://developer.altruist.com/reference/positionsv1.md
+  - https://developer.altruist.com/reference/positionsv2.md
+  - https://developer.altruist.com/reference/requesthistoricaldatafile.md
+  - https://developer.altruist.com/reference/transactionsv2.md
+  merge:
+    pages: 14
+    deduped: 45
+    conflicts_kept_first: 0

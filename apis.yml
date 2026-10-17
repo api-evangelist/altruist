@@ -71,9 +71,8 @@ tags_raw:
 apis:
 - name: Altruist Open API
   description: >-
-    OAuth 2.0 authorization-code API giving partners full access to Altruist
-    custody data — accounts, households, positions, transactions, and cost basis
-    — for advisor tools, reporting, and reconciliation.
+    OAuth 2.0 authorization-code API giving partners full access to Altruist custody data — accounts,
+    households, positions, transactions, and cost basis — for advisor tools, reporting, and reconciliation.
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   properties:
@@ -83,9 +82,8 @@ apis:
     url: https://developer.altruist.com/docs/open-api-authentication
 - name: Altruist Realtime API
   description: >-
-    OAuth 2.0 password-grant API for account onboarding, funding, transfers,
-    contacts, households, bank-link, user management, and time-weighted return
-    performance reporting.
+    OAuth 2.0 password-grant API for account onboarding, funding, transfers, contacts, households, bank-link,
+    user management, and time-weighted return performance reporting.
   humanURL: https://developer.altruist.com/docs/altruist-realtime-apis
   baseURL: https://integrations.altruist.com/api/
   properties:
@@ -93,6 +91,356 @@ apis:
     url: https://developer.altruist.com/docs/altruist-realtime-apis
   - type: Authentication
     url: https://developer.altruist.com/docs/authentication-1
+- aid: altruist:altruist-acat-transfers-api
+  name: Altruist ACAT Transfers API
+  description: ACAT transfer operations for managed brokerage accounts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - ACAT Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-acat-transfers-api-openapi.yml
+- aid: altruist:altruist-account-api
+  name: Altruist Account API
+  description: Account management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-account-api-openapi.yml
+- aid: altruist:altruist-account-balance-api
+  name: Altruist Account Balance API
+  description: Account data and operations
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Account Balance
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-account-balance-api-openapi.yml
+- aid: altruist:altruist-account-draft-bundles-api
+  name: Altruist Account Draft Bundles API
+  description: Multi-account draft bundle management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Account Draft Bundles
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-account-draft-bundles-api-openapi.yml
+- aid: altruist:altruist-account-group-api
+  name: Altruist Account Group API
+  description: Account Group Management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Account Group
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-account-group-api-openapi.yml
+- aid: altruist:altruist-account-portfolios-api
+  name: Altruist Account Portfolios API
+  description: Account portfolio management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Account Portfolios
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-account-portfolios-api-openapi.yml
+- aid: altruist:altruist-accounts-api
+  name: Altruist Accounts API
+  description: The accounts API from Altruist — 2 operation(s) for accounts.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-accounts-api-openapi.yml
+- aid: altruist:altruist-bank-links-api
+  name: Altruist Bank Links API
+  description: Bank link operations for full brokerage accounts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Bank Links
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-bank-links-api-openapi.yml
+- aid: altruist:altruist-cash-set-aside-api
+  name: Altruist Cash Set Aside API
+  description: Cash set aside (liquidation) operations for brokerage accounts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Cash Set Aside
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-cash-set-aside-api-openapi.yml
+- aid: altruist:altruist-cash-settings-api
+  name: Altruist Cash Settings API
+  description: Cash management settings for brokerage accounts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Cash Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-cash-settings-api-openapi.yml
+- aid: altruist:altruist-cash-transfers-api
+  name: Altruist Cash Transfers API
+  description: Cash transfer operations between funding and brokerage accounts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Cash Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-cash-transfers-api-openapi.yml
+- aid: altruist:altruist-client-agreement-api
+  name: Altruist Client Agreement API
+  description: Client Agreement management for account drafts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Client Agreement
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-client-agreement-api-openapi.yml
+- aid: altruist:altruist-contribution-limits-api
+  name: Altruist Contribution Limits API
+  description: IRA contribution limit operations
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Contribution Limits
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-contribution-limits-api-openapi.yml
+- aid: altruist:altruist-cost-basis-api
+  name: Altruist Cost Basis API
+  description: The cost-basis API from Altruist — 2 operation(s) for cost-basis.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - cost-basis
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-cost-basis-api-openapi.yml
+- aid: altruist:altruist-data-feed-api
+  name: Altruist Data Feed API
+  description: The data-feed API from Altruist — 2 operation(s) for data-feed.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - data-feed
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-data-feed-api-openapi.yml
+- aid: altruist:altruist-draft-beneficiaries-api
+  name: Altruist Draft Beneficiaries API
+  description: Beneficiary management for account drafts within bundles
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Draft Beneficiaries
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-draft-beneficiaries-api-openapi.yml
+- aid: altruist:altruist-funding-accounts-api
+  name: Altruist Funding Accounts API
+  description: Funding accounts from voided checks used for transfers
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Funding Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-funding-accounts-api-openapi.yml
+- aid: altruist:altruist-funding-eligible-accounts-api
+  name: Altruist Funding Eligible Accounts API
+  description: Brokerage accounts eligible to receive ACH funding
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Funding Eligible Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-funding-eligible-accounts-api-openapi.yml
+- aid: altruist:altruist-historical-data-feed-api
+  name: Altruist Historical Data Feed API
+  description: The historical-data-feed API from Altruist — 1 operation(s) for historical-data-feed.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - historical-data-feed
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-historical-data-feed-api-openapi.yml
+- aid: altruist:altruist-household-accounts-api
+  name: Altruist Household Accounts API
+  description: Accounts assigned to a household
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Household Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-household-accounts-api-openapi.yml
+- aid: altruist:altruist-household-api
+  name: Altruist Household API
+  description: Household management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Household
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-household-api-openapi.yml
+- aid: altruist:altruist-household-contact-api
+  name: Altruist Household Contact API
+  description: Household contact management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Household Contact
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-household-contact-api-openapi.yml
+- aid: altruist:altruist-households-api
+  name: Altruist Households API
+  description: The households API from Altruist — 2 operation(s) for households.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - households
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-households-api-openapi.yml
+- aid: altruist:altruist-performance-analytics-api
+  name: Altruist Performance Analytics API
+  description: Time weighted returns and performance analytics
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Performance Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-performance-analytics-api-openapi.yml
+- aid: altruist:altruist-plaid-api
+  name: Altruist Plaid API
+  description: Plaid bank linking operations
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Plaid
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-plaid-api-openapi.yml
+- aid: altruist:altruist-point-of-contact-api
+  name: Altruist Point of Contact API
+  description: Firm-level points of contact for an organization
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Point of Contact
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-point-of-contact-api-openapi.yml
+- aid: altruist:altruist-portfolios-api
+  name: Altruist Portfolios API
+  description: Portfolio management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Portfolios
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-portfolios-api-openapi.yml
+- aid: altruist:altruist-positions-api
+  name: Altruist Positions API
+  description: The positions API from Altruist — 2 operation(s) for positions.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - positions
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-positions-api-openapi.yml
+- aid: altruist:altruist-scheduled-transfers-api
+  name: Altruist Scheduled Transfers API
+  description: Recurring ACH transfer scheduling for brokerage accounts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Scheduled Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-scheduled-transfers-api-openapi.yml
+- aid: altruist:altruist-transactions-api
+  name: Altruist Transactions API
+  description: The transactions API from Altruist — 1 operation(s) for transactions.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-transactions-api-openapi.yml
+- aid: altruist:altruist-transfers-api
+  name: Altruist Transfers API
+  description: Transfer management for account drafts
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-transfers-api-openapi.yml
+- aid: altruist:altruist-trusted-contact-api
+  name: Altruist Trusted Contact API
+  description: Trusted contact management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Trusted Contact
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-trusted-contact-api-openapi.yml
+- aid: altruist:altruist-user-api
+  name: Altruist User API
+  description: User creation for records referenced by account drafts (e.g. minors, employers)
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-user-api-openapi.yml
+- aid: altruist:altruist-user-invitation-api
+  name: Altruist User Invitation API
+  description: Account opening and management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - User Invitation
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-user-invitation-api-openapi.yml
+- aid: altruist:altruist-user-profile-api
+  name: Altruist User Profile API
+  description: User profile management
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - User Profile
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-user-profile-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

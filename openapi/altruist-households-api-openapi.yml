@@ -1,0 +1,311 @@
+openapi: 3.2.0
+info:
+  version: 0.0.2
+  title: Altruist Open Households API
+  description: A RESTFul API for accessing information from the Altruist Platform. Intended for partners that integrate with the Altruist Platform to access information that is maintained on the platform
+  license:
+    name: MIT
+servers:
+- url: https://openapi.altruist.com/altruist-open-api/
+security:
+- Authorization:
+  - households:read
+  - accounts:read
+  - positions:read
+  - cost_basis:read
+  - transactions:read
+tags:
+- name: Households
+paths:
+  /api/v1/households:
+    get:
+      summary: Get a list of household/household ID-s for the current user
+      description: Get households/households for the current user. Returns a list of ID-s and names of households/households associated with the current user. If a user is a household, returns a household ID associated with that household. If a user is an advisor, returns a list of household ID-s associated with the advisor
+      operationId: listHouseholds
+      tags:
+      - Households
+      parameters:
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: name_pattern
+        in: query
+        description: a case-insensitive pattern which if specified must be contained within household or household name
+        required: false
+        schema:
+          type: string
+        example: Smith
+      - name: X-API-Request-ID
+        in: header
+        description: household-provided request id
+        required: false
+        schema:
+          type: string
+        example: 2f047e95
+      responses:
+        '200':
+          description: A successful response for /households request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    $ref: '#/components/schemas/Households'
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      households:
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: The Rogers Family
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: Scott Brown
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - households:read
+  /v2/households:
+    get:
+      summary: Get a list of household/household ID-s for the current user
+      description: Get households/households for the current user. Returns a list of ID-s and names of households/households associated with the current user. If a user is a household, returns a household ID associated with that household. If a user is an advisor, returns a list of household ID-s associated with the advisor
+      operationId: listHouseholdsV2
+      tags:
+      - Households
+      parameters:
+      - name: page
+        in: query
+        description: desired page number, defaults to 0
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: page_size
+        in: query
+        description: desired number of entries per page, defaults to 100, max value is 1000
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 25
+      - name: name_pattern
+        in: query
+        description: a case-insensitive pattern which if specified must be contained within household or household name
+        required: false
+        schema:
+          type: string
+        example: Smith
+      responses:
+        '200':
+          description: A successful response for /households request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paging:
+                    $ref: '#/components/schemas/Pagination'
+                  data:
+                    $ref: '#/components/schemas/Households'
+              examples:
+                first:
+                  value:
+                    paging:
+                      page: 1
+                      page_size: 25
+                      total_pages: 3
+                    data:
+                      households:
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: The Rogers Family
+                      - id: ba24a2890228ef70a16259bb9b72fb1b42ad5f29d7c60a0298456adb4ee11737
+                        name: Scott Brown
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing user id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - households:read
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error_type
+      - message
+      properties:
+        error_type:
+          type: string
+          description: Describes the type or source of error
+          enum:
+          - internal_error
+          - bad_request
+          - dependency_unavailable
+          - resource_not_found
+          - resource_already_exists
+          - unauthorized
+          example: unauthorized
+        message:
+          type: string
+          description: Error message corresponding to the error code
+          example: User is not authorized
+    Household:
+      type: object
+      description: A description of a household or a household
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          example: be68a94aa8f2f0aa1e345f8a8fbebf3602b2246d3382f69fbd708d3c46e9962b
+          description: the id has length of 64 lower-case alphanumeric chars
+        name:
+          type: string
+          example: The Rogers Family
+    Pagination:
+      type: object
+      description: Description of a paginated response
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Desired page number, default is 0
+          default: 0
+          example: 1
+        page_size:
+          type: integer
+          format: int32
+          description: Page size, default is 100 items
+          default: 100
+          example: 25
+        total_pages:
+          type: integer
+          format: int32
+          description: Total number of pages
+          default: 1
+          example: 3
+      required:
+      - page
+      - page_size
+      - total_pages
+    Households:
+      description: A list of household/household id-s and names associated with a user
+      type: object
+      properties:
+        households:
+          description: A list of household/household id-s and names
+          type: array
+          items:
+            $ref: '#/components/schemas/Household'
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      description: Access Token
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/accountsv1.md
+  - https://developer.altruist.com/reference/accountsv2.md
+  - https://developer.altruist.com/reference/costbasisv1.md
+  - https://developer.altruist.com/reference/costbasisv2.md
+  - https://developer.altruist.com/reference/disabledatafeedbyid.md
+  - https://developer.altruist.com/reference/enabledatafeed.md
+  - https://developer.altruist.com/reference/getdatafeedbyid.md
+  - https://developer.altruist.com/reference/getdatafeeds.md
+  - https://developer.altruist.com/reference/householdsv1.md
+  - https://developer.altruist.com/reference/householdsv2.md
+  - https://developer.altruist.com/reference/positionsv1.md
+  - https://developer.altruist.com/reference/positionsv2.md
+  - https://developer.altruist.com/reference/requesthistoricaldatafile.md
+  - https://developer.altruist.com/reference/transactionsv2.md
+  merge:
+    pages: 14
+    deduped: 45
+    conflicts_kept_first: 0

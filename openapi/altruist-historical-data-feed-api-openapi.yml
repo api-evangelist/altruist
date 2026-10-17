@@ -1,0 +1,211 @@
+openapi: 3.2.0
+info:
+  version: 0.0.2
+  title: Altruist Open Historical Data Feed API
+  description: A RESTFul API for accessing information from the Altruist Platform. Intended for partners that integrate with the Altruist Platform to access information that is maintained on the platform
+  license:
+    name: MIT
+servers:
+- url: https://openapi.altruist.com/altruist-open-api/
+security:
+- Authorization:
+  - households:read
+  - accounts:read
+  - positions:read
+  - cost_basis:read
+  - transactions:read
+tags:
+- name: historical-data-feed
+paths:
+  /v2/partners/{partner_code}/historical-data:
+    post:
+      summary: Request historical data file for the repcode/s under current user's org
+      description: Request historical data file for the repcode/s under current user's org. Returns historical data feed details when enabled.
+      operationId: requestHistoricalDataFile
+      tags:
+      - historical-data-feed
+      requestBody:
+        description: Request body to enable historical-data-feed
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoricalDataFeedRequestBody'
+      parameters:
+      - name: partner_code
+        in: path
+        description: The unique partner code
+        required: true
+        schema:
+          type: string
+        example: ace
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DataFeed'
+              examples:
+                first:
+                  value:
+                    data:
+                      message: Historical Data files will be available in 30 to 60 minutes
+                      data_files:
+                      - path/to/file1
+                      - path/to/file2
+                      repcodes:
+                      - A100
+        '400':
+          description: Bad request error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: bad_request
+                    message: invalid or missing id
+        '403':
+          description: Unauthorized error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: unauthorized
+                    message: user is not authorized
+        '404':
+          description: Not found error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: resource_not_found
+                    message: Repcode not found
+        '500':
+          description: Internal error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                first:
+                  value:
+                    error_type: internal_error
+                    message: unable to connect to the data source
+      security:
+      - Authorization:
+        - historical-data-feed:create
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error_type
+      - message
+      properties:
+        error_type:
+          type: string
+          description: Describes the type or source of error
+          enum:
+          - internal_error
+          - bad_request
+          - dependency_unavailable
+          - resource_not_found
+          - resource_already_exists
+          - unauthorized
+          example: unauthorized
+        message:
+          type: string
+          description: Error message corresponding to the error code
+          example: User is not authorized
+    DataFeed:
+      type: object
+      description: A description of a data feed
+      required:
+      - id
+      - data_files
+      - repcodes
+      properties:
+        id:
+          type: string
+          example: be68a94aa8f2f0aa1e345f8a8fbebf3602b2246d3382f69fbd708d3c46e9962b
+          description: the id has length of 64 lower-case alphanumeric chars
+        data_feed_status:
+          type: string
+          example: active
+        message:
+          type: string
+          example: Data feed will be initiated on the next business day, Historical Data files will be available in 30 to 60 minutes
+        data_files:
+          type: array
+          description: A list of data files
+          items:
+            type: string
+          example:
+          - Transactions
+          - Positions
+          - path/to/historical/file1
+          - path/to/file2
+        repcodes:
+          type: array
+          description: A list of repcodes associated with the authenticated user
+          items:
+            type: string
+          example:
+          - A100
+          - A101
+    HistoricalDataFeedRequestBody:
+      type: object
+      description: Request body for historical data feed
+      required:
+      - repcodes
+      properties:
+        repcodes:
+          type: array
+          description: List of repcodes to include in the historical data
+          items:
+            type: string
+          example:
+          - A100
+          - A101
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      description: Access Token
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/accountsv1.md
+  - https://developer.altruist.com/reference/accountsv2.md
+  - https://developer.altruist.com/reference/costbasisv1.md
+  - https://developer.altruist.com/reference/costbasisv2.md
+  - https://developer.altruist.com/reference/disabledatafeedbyid.md
+  - https://developer.altruist.com/reference/enabledatafeed.md
+  - https://developer.altruist.com/reference/getdatafeedbyid.md
+  - https://developer.altruist.com/reference/getdatafeeds.md
+  - https://developer.altruist.com/reference/householdsv1.md
+  - https://developer.altruist.com/reference/householdsv2.md
+  - https://developer.altruist.com/reference/positionsv1.md
+  - https://developer.altruist.com/reference/positionsv2.md
+  - https://developer.altruist.com/reference/requesthistoricaldatafile.md
+  - https://developer.altruist.com/reference/transactionsv2.md
+  merge:
+    pages: 14
+    deduped: 45
+    conflicts_kept_first: 0

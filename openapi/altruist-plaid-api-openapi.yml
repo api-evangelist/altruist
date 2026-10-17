@@ -1,0 +1,533 @@
+openapi: 3.2.0
+info:
+  title: Enterprise Realtime Plaid API
+  description: The Enterprise Realtime API service acts as the public API layer for advisor infrastructure, enabling partner-developers to programmatically perform advisor actions.
+  version: v1
+servers:
+- url: https://integrations.altruist.com
+  description: API Server
+tags:
+- name: Plaid
+  description: Plaid bank linking operations
+paths:
+  /api/v1/orgs/{orgId}/users/{userId}/fundingAccounts/plaid:
+    post:
+      tags:
+      - Plaid
+      summary: Submit a Plaid bank link
+      description: 'Creates a funding account from a Plaid public token obtained after a successful Plaid Link session. The auth type in plaidMetaData must reflect the verification_status Plaid Link returned. ERA always enables AVS validation. Blocked for impersonating sessions. The request is safe to retry: if this bank is already on file for the user, the existing funding account is returned with a 200 instead of a 201.'
+      operationId: createPlaidFundingAccount
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlaidFundingAccountRequestV1'
+        required: true
+      responses:
+        '200':
+          description: This bank was already linked; the existing funding account is returned
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundingAccountV1'
+        '201':
+          description: Funding account created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FundingAccountV1'
+        '400':
+          description: Bank link failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden or impersonation not allowed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Account could not be verified through Plaid
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+  /api/v1/orgs/{orgId}/users/{userId}/fundingAccounts/plaid/linkToken:
+    post:
+      tags:
+      - Plaid
+      summary: Create a Plaid link token
+      description: Mints a short-lived link token to initialize the Plaid Link SDK on the client side. The consumer must pass this token to the Plaid Link widget, which guides the end user through bank authentication. After a successful bank link, call POST /fundingAccounts/plaid with the resulting public token.
+      operationId: createLinkToken
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlaidLinkTokenRequestV1'
+      responses:
+        '201':
+          description: Link token created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PlaidLinkTokenResponseV1'
+        '400':
+          description: Failed to create Plaid link token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+components:
+  schemas:
+    FundingAccountV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountType:
+          type: string
+          enum:
+          - Checking
+          - Savings
+          - Unknown
+          - Investment
+          - Brokerage
+          - Credit
+          - Depository
+          - Loan
+          - Other
+        routingNumber:
+          type: string
+        institutionName:
+          type: string
+        accountNumber:
+          type: string
+        accountName:
+          type: string
+        authenticationStatus:
+          type: string
+          enum:
+          - Pending
+          - Failed
+          - Verified
+          - PendingManual
+          - PendingVerification
+          - PendingOpsReview
+          - PendingAdvisorReview
+          - PendingDraftSubmission
+          - PendingClientReview
+          - ClientReviewApproved
+          - ClientReviewRejected
+          - Unknown
+        verificationStatus:
+          type: string
+          enum:
+          - Pending
+          - Verified
+          - Rejected
+          - Canceled
+          - Unknown
+        accountOwnerName:
+          type: string
+        locked:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+    ErrorV1:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: '### Error Codes
+
+
+            | Code   | Description                         |
+
+            |--------|-------------------------------------|
+
+            | **0xx** | **Unknown or Unexpected**          |
+
+            | 0    | Unknown error                         |
+
+            | 40   | Unknown authentication error          |
+
+            | **1xx** | **General**                        |
+
+            | 101  | Invalid input                         |
+
+            | 104  | Not found                             |
+
+            | 140  | Access Denied                         |
+
+            | 141  | Unauthorized                          |
+
+            | 150  | Not implemented                       |
+
+            | **10xx** | **Household**                     |
+
+            | 1000 | Household not found                   |
+
+            | 1001 | Duplicate contact                     |
+
+            | 1002 | Household contact not found           |
+
+            | 1003 | Household contact already exists      |
+
+            | **11xx** | **Account**                       |
+
+            | 1100 | Account not found                     |
+
+            | 1110 | Invalid account group                 |
+
+            | **12xx** | **User**                          |
+
+            | 1200 | User not found                        |
+
+            | 1201 | User profile not found                |
+
+            | **13xx** | **Transfer**                      |
+
+            | 1300 | Transfer not found                    |
+
+            | 1301 | Transfer not supported                |
+
+            | 1302 | Duplicate transfer                    |
+
+            | 1303 | Funding account not found             |
+
+            | 1304 | Duplicate funding account             |
+
+            | **14xx** | **Client Agreement**              |
+
+            | 1400 | Client Agreement not found            |
+
+            | 1401 | Invalid Client Agreement file         |
+
+            | 1402 | Client Agreement could not be updated |
+
+            | **15xx** | **Trusted Contact**               |
+
+            | 1500 | Trusted Contact not found             |
+
+            | **17xx** | **Cash Set Aside**                |
+
+            | 1700 | Cash set aside not found              |
+
+            | 1701 | Cash set aside invalid amount         |
+
+            | 1702 | Cash set aside invalid date           |
+
+            | 1703 | Cash set aside upstream error         |
+
+            | 1704 | Cash set aside cannot be cancelled    |
+
+            | 1705 | Cash set aside invalid account        |
+
+            | **18xx** | **Cash Settings**                 |
+
+            | 1800 | Cash settings not found               |
+
+            '
+        message:
+          type: string
+        requestId:
+          type: string
+    PlaidMetaDataV1:
+      type: object
+      description: Plaid account metadata returned by the Plaid Link SDK on success
+      properties:
+        accountMask:
+          type: string
+          description: Last 4 digits of the bank account number
+          example: 1234
+          minLength: 1
+        accountName:
+          type: string
+          description: Name of the bank account as returned by Plaid
+          example: Checking
+          minLength: 1
+        accountType:
+          type: string
+          description: Plaid account subtype in UpperCamelCase
+          example: Checking
+          minLength: 1
+        authType:
+          type: string
+          description: 'Plaid authentication type, derived from the Plaid Link account''s verification_status: Instant if verified immediately, Automated if pending_automatic_verification, Manual if pending_manual_verification.'
+          enum:
+          - Instant
+          - Automated
+          - Manual
+          example: Instant
+        institutionName:
+          type: string
+          description: Name of the financial institution
+          example: Chase
+          minLength: 1
+        plaidAccountId:
+          type: string
+          description: Plaid's internal account identifier
+          example: plaid-abc123
+          minLength: 1
+      required:
+      - accountMask
+      - accountName
+      - accountType
+      - authType
+      - institutionName
+      - plaidAccountId
+    CreatePlaidLinkTokenRequestV1:
+      type: object
+      description: Request body for creating a Plaid link token
+      properties:
+        redirectUri:
+          type: string
+          description: OAuth redirect URI. Required only for OAuth-redirect banks (e.g., Chase, Bank of America). Must be pre-registered in the Plaid Dashboard. Omit for non-OAuth banks.
+          example: https://your-app.com/oauth-callback
+    CreatePlaidFundingAccountRequestV1:
+      type: object
+      description: Request body for submitting a Plaid bank link
+      properties:
+        publicToken:
+          type: string
+          description: One-time token returned by Plaid Link on success
+          example: public-sandbox-...
+          minLength: 1
+        plaidMetaData:
+          $ref: '#/components/schemas/PlaidMetaDataV1'
+          description: Account metadata returned by Plaid Link on success
+      required:
+      - plaidMetaData
+      - publicToken
+    PlaidLinkTokenResponseV1:
+      type: object
+      description: Plaid link token for initializing the Plaid Link SDK
+      properties:
+        linkToken:
+          type: string
+          description: Short-lived token to initialize the Plaid Link widget
+          example: link-sandbox-abc123...
+x-provenance:
+  method: searched
+  source: https://developer.altruist.com/reference
+  harvested: '2026-10-13'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
+  - https://developer.altruist.com/reference/assignaccounttohousehold.md
+  - https://developer.altruist.com/reference/associatedrafttobundle.md
+  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
+  - https://developer.altruist.com/reference/cancelacattransfer.md
+  - https://developer.altruist.com/reference/cancelcashsetaside.md
+  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
+  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
+  - https://developer.altruist.com/reference/checkdrafteligibility.md
+  - https://developer.altruist.com/reference/createaccountgroup.md
+  - https://developer.altruist.com/reference/createbanklink.md
+  - https://developer.altruist.com/reference/createbeneficiary.md
+  - https://developer.altruist.com/reference/createbundle.md
+  - https://developer.altruist.com/reference/createcashsetaside.md
+  - https://developer.altruist.com/reference/createcashtransfer-1.md
+  - https://developer.altruist.com/reference/createdraftinbundle.md
+  - https://developer.altruist.com/reference/createfundingaccount-1.md
+  - https://developer.altruist.com/reference/createhousehold.md
+  - https://developer.altruist.com/reference/createhouseholdcontact.md
+  - https://developer.altruist.com/reference/createinvite.md
+  - https://developer.altruist.com/reference/createlinktoken.md
+  - https://developer.altruist.com/reference/createplaidfundingaccount.md
+  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
+  - https://developer.altruist.com/reference/createtransfer-1.md
+  - https://developer.altruist.com/reference/createuser.md
+  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
+  - https://developer.altruist.com/reference/deletebanklink.md
+  - https://developer.altruist.com/reference/deletebeneficiary.md
+  - https://developer.altruist.com/reference/deletebundle.md
+  - https://developer.altruist.com/reference/deleteclientagreement-1.md
+  - https://developer.altruist.com/reference/deletehousehold.md
+  - https://developer.altruist.com/reference/deletetransfer-1.md
+  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
+  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
+  - https://developer.altruist.com/reference/getacattransfer.md
+  - https://developer.altruist.com/reference/getaccount.md
+  - https://developer.altruist.com/reference/getaccountcashsettings.md
+  - https://developer.altruist.com/reference/getaccountgroup.md
+  - https://developer.altruist.com/reference/getaccountgroups.md
+  - https://developer.altruist.com/reference/getaccountportfolio-1.md
+  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
+  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
+  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
+  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
+  - https://developer.altruist.com/reference/getalltransfers-1.md
+  - https://developer.altruist.com/reference/getbanklink.md
+  - https://developer.altruist.com/reference/getbeneficiary.md
+  - https://developer.altruist.com/reference/getbundle.md
+  - https://developer.altruist.com/reference/getcashsetaside.md
+  - https://developer.altruist.com/reference/getcashsummary-1.md
+  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
+  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
+  - https://developer.altruist.com/reference/getcontributionlimits-1.md
+  - https://developer.altruist.com/reference/getfundingaccount-1.md
+  - https://developer.altruist.com/reference/gethouseholdbyid.md
+  - https://developer.altruist.com/reference/gethouseholdcontact.md
+  - https://developer.altruist.com/reference/gethouseholdcontacts.md
+  - https://developer.altruist.com/reference/getinvite.md
+  - https://developer.altruist.com/reference/getinvitestatus.md
+  - https://developer.altruist.com/reference/getmmasettings.md
+  - https://developer.altruist.com/reference/getmodel-1.md
+  - https://developer.altruist.com/reference/getpointsofcontact.md
+  - https://developer.altruist.com/reference/getportfolio-1.md
+  - https://developer.altruist.com/reference/getportfolios-1.md
+  - https://developer.altruist.com/reference/getportfolios_1-1.md
+  - https://developer.altruist.com/reference/getsecurities-1.md
+  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
+  - https://developer.altruist.com/reference/gettransferbyid-1.md
+  - https://developer.altruist.com/reference/gettrustedcontact-1.md
+  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
+  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
+  - https://developer.altruist.com/reference/initiateacattransfer.md
+  - https://developer.altruist.com/reference/listacattransfers.md
+  - https://developer.altruist.com/reference/listaccounts.md
+  - https://developer.altruist.com/reference/listbanklinks.md
+  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
+  - https://developer.altruist.com/reference/listbeneficiaries.md
+  - https://developer.altruist.com/reference/listbundles.md
+  - https://developer.altruist.com/reference/listcashsetasides.md
+  - https://developer.altruist.com/reference/listcashtransfers-1.md
+  - https://developer.altruist.com/reference/listdraftsinbundle.md
+  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
+  - https://developer.altruist.com/reference/listhouseholdaccounts.md
+  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
+  - https://developer.altruist.com/reference/removedraftfrombundle.md
+  - https://developer.altruist.com/reference/resendacatconfirmation.md
+  - https://developer.altruist.com/reference/setallocations.md
+  - https://developer.altruist.com/reference/unassignaccount.md
+  - https://developer.altruist.com/reference/updateaccount.md
+  - https://developer.altruist.com/reference/updatebeneficiary.md
+  - https://developer.altruist.com/reference/updateclientagreement-1.md
+  - https://developer.altruist.com/reference/updatedraftinbundle.md
+  - https://developer.altruist.com/reference/updatefundingaccount-1.md
+  - https://developer.altruist.com/reference/updatehousehold.md
+  - https://developer.altruist.com/reference/updatetransfer-1.md
+  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
+  - https://developer.altruist.com/reference/updateuserprofile.md
+  - https://developer.altruist.com/reference/validatecashsetaside.md
+  merge:
+    pages: 98
+    deduped: 228
+    conflicts_kept_first: 0
