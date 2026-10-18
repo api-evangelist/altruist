@@ -157,6 +157,8 @@ apis:
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   tags:
+  - Account
+  tags_raw:
   - accounts
   properties:
   - type: OpenAPI
@@ -237,6 +239,8 @@ apis:
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   tags:
+  - Data Feed
+  tags_raw:
   - data-feed
   properties:
   - type: OpenAPI
@@ -317,6 +321,8 @@ apis:
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   tags:
+  - Households
+  tags_raw:
   - households
   properties:
   - type: OpenAPI
@@ -357,6 +363,8 @@ apis:
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   tags:
+  - Portfolio
+  tags_raw:
   - Portfolios
   properties:
   - type: OpenAPI
@@ -367,6 +375,8 @@ apis:
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   tags:
+  - Positions
+  tags_raw:
   - positions
   properties:
   - type: OpenAPI
@@ -387,6 +397,8 @@ apis:
   humanURL: https://developer.altruist.com/docs/altruist-open-api
   baseURL: https://openapi.altruist.com/altruist-open-api/
   tags:
+  - Transaction
+  tags_raw:
   - transactions
   properties:
   - type: OpenAPI
