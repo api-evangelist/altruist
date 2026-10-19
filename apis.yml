@@ -453,6 +453,26 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/altruist-user-profile-api-openapi.yml
+- aid: altruist:altruist-demo-pre-release-api
+  name: Altruist Demo Pre-Release API
+  description: Verification endpoints for the @PreRelease annotation. Not a public API.
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Demo Pre-Release
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-demo-pre-release-api-openapi.yml
+- aid: altruist:altruist-health-api
+  name: Altruist Health API
+  description: Health check
+  humanURL: https://developer.altruist.com/docs/altruist-open-api
+  baseURL: https://openapi.altruist.com/altruist-open-api/
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/altruist-health-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

@@ -231,19 +231,6 @@ components:
           type: string
           description: Error message corresponding to the error code
           example: User is not authorized
-    Household:
-      type: object
-      description: A description of a household or a household
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          example: be68a94aa8f2f0aa1e345f8a8fbebf3602b2246d3382f69fbd708d3c46e9962b
-          description: the id has length of 64 lower-case alphanumeric chars
-        name:
-          type: string
-          example: The Rogers Family
     Pagination:
       type: object
       description: Description of a paginated response
@@ -279,6 +266,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Household'
+    Household:
+      type: object
+      description: A description of a household or a household
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          example: be68a94aa8f2f0aa1e345f8a8fbebf3602b2246d3382f69fbd708d3c46e9962b
+          description: the id has length of 64 lower-case alphanumeric chars
+        name:
+          type: string
+          example: The Rogers Family
   securitySchemes:
     Authorization:
       type: http

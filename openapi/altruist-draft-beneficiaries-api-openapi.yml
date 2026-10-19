@@ -10,6 +10,303 @@ tags:
 - name: Draft Beneficiaries
   description: Beneficiary management for account drafts within bundles
 paths:
+  ? /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts/{draftId}/beneficiaries/{beneficiaryId}
+  : get:
+      tags:
+      - Draft Beneficiaries
+      summary: Get a single beneficiary for an account draft
+      description: Returns the details of a single beneficiary on the specified account draft within a bundle.
+      operationId: getBeneficiary
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: beneficiaryId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '400':
+          description: Invalid input or account type does not support beneficiaries
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Access denied — caller lacks READ on the household
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Draft, bundle, household, or beneficiary not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: The beneficiary
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BeneficiaryV1'
+    put:
+      tags:
+      - Draft Beneficiaries
+      summary: Update a beneficiary for an account draft
+      description: Full replacement update of an existing beneficiary on the specified account draft within a bundle. All required fields must be provided.
+      operationId: updateBeneficiary
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: beneficiaryId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeneficiaryRequestV1'
+        required: true
+      responses:
+        '400':
+          description: Invalid input, missing required fields, account type does not support beneficiaries, or invalid relationship/designationType combination (e.g. Entity with PerStirpes, Contingent with PerStirpes)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Access denied — caller lacks READ on the household
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Draft, bundle, household, or beneficiary not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: Beneficiary updated
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BeneficiaryV1'
+    delete:
+      tags:
+      - Draft Beneficiaries
+      summary: Delete a beneficiary from an account draft
+      description: Removes a single beneficiary from the specified account draft within a bundle.
+      operationId: deleteBeneficiary
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountDraftBundleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: beneficiaryId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '400':
+          description: Invalid input or account type does not support beneficiaries
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Access denied - caller lacks READ on the household
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Draft, bundle, or household, not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized - missing or invalid token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '204':
+          description: Beneficiary deleted, or did not exist in the first place
   /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts/{draftId}/beneficiaries:
     get:
       tags:
@@ -58,20 +355,8 @@ paths:
           default: 50
           maximum: 200
       responses:
-        '200':
-          description: Paginated list of beneficiaries (may be empty)
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/PageResponseBeneficiaryV1'
         '400':
           description: Invalid input or account type does not support beneficiaries
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized — missing or invalid token
           content:
             '*/*':
               schema:
@@ -88,8 +373,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -100,8 +391,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -118,6 +409,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: Paginated list of beneficiaries (may be empty)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseBeneficiaryV1'
     post:
       tags:
       - Draft Beneficiaries
@@ -156,20 +453,8 @@ paths:
               $ref: '#/components/schemas/CreateBeneficiaryRequestV1'
         required: true
       responses:
-        '201':
-          description: Beneficiary created
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BeneficiaryV1'
         '400':
           description: Invalid input, account type does not support beneficiaries, or invalid relationship/designationType combination (e.g. Entity with PerStirpes, Contingent with PerStirpes)
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized — missing or invalid token
           content:
             '*/*':
               schema:
@@ -186,8 +471,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -198,8 +489,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -216,6 +507,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '201':
+          description: Beneficiary created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BeneficiaryV1'
     delete:
       tags:
       - Draft Beneficiaries
@@ -254,16 +551,8 @@ paths:
               $ref: '#/components/schemas/BatchDeleteBeneficiariesRequestV1'
         required: true
       responses:
-        '204':
-          description: Beneficiaries deleted
         '400':
           description: Invalid input, empty beneficiary ID list, or account type does not support beneficiaries
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized - missing or invalid token
           content:
             '*/*':
               schema:
@@ -280,8 +569,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized - missing or invalid token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -292,8 +587,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -310,6 +605,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '204':
+          description: Beneficiaries deleted
   ? /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts/{draftId}/beneficiaries/allocations
   : post:
       tags:
@@ -360,16 +657,8 @@ paths:
               $ref: '#/components/schemas/SetBeneficiaryAllocationsRequestV1'
         required: true
       responses:
-        '204':
-          description: Allocations applied
         '400':
           description: 'Invalid input: allocations do not sum to 100 per designation group, duplicate beneficiaryIds, missing beneficiaries within a designation group, percentage out of range or exceeds 2 decimal places, or account type does not support beneficiaries'
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized - missing or invalid token
           content:
             '*/*':
               schema:
@@ -386,305 +675,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-  ? /api/v1/orgs/{orgId}/households/{householdId}/accounts/draftBundles/{accountDraftBundleId}/drafts/{draftId}/beneficiaries/{beneficiaryId}
-  : get:
-      tags:
-      - Draft Beneficiaries
-      summary: Get a single beneficiary for an account draft
-      description: Returns the details of a single beneficiary on the specified account draft within a bundle.
-      operationId: getBeneficiary
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: accountDraftBundleId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: draftId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: beneficiaryId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        '200':
-          description: The beneficiary
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BeneficiaryV1'
-        '400':
-          description: Invalid input or account type does not support beneficiaries
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized — missing or invalid token
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Access denied — caller lacks READ on the household
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Draft, bundle, household, or beneficiary not found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-    put:
-      tags:
-      - Draft Beneficiaries
-      summary: Update a beneficiary for an account draft
-      description: Full replacement update of an existing beneficiary on the specified account draft within a bundle. All required fields must be provided.
-      operationId: updateBeneficiary
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: accountDraftBundleId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: draftId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: beneficiaryId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateBeneficiaryRequestV1'
-        required: true
-      responses:
-        '200':
-          description: Beneficiary updated
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BeneficiaryV1'
-        '400':
-          description: Invalid input, missing required fields, account type does not support beneficiaries, or invalid relationship/designationType combination (e.g. Entity with PerStirpes, Contingent with PerStirpes)
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized — missing or invalid token
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Access denied — caller lacks READ on the household
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Draft, bundle, household, or beneficiary not found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-    delete:
-      tags:
-      - Draft Beneficiaries
-      summary: Delete a beneficiary from an account draft
-      description: Removes a single beneficiary from the specified account draft within a bundle.
-      operationId: deleteBeneficiary
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: accountDraftBundleId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: draftId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: beneficiaryId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        '204':
-          description: Beneficiary deleted, or did not exist in the first place
-        '400':
-          description: Invalid input or account type does not support beneficiaries
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
         '401':
           description: Unauthorized - missing or invalid token
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Access denied - caller lacks READ on the household
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Draft, bundle, or household, not found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -695,8 +693,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -713,8 +711,157 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '204':
+          description: Allocations applied
 components:
   schemas:
+    CreateBeneficiaryRequestV1:
+      type: object
+      properties:
+        relationship:
+          type: string
+          enum:
+          - Spouse
+          - NonSpouse
+          - Entity
+        designation:
+          type: string
+          enum:
+          - Primary
+          - Contingent
+        designationType:
+          type: string
+          description: Designation type for the beneficiary. PerStirpes is only valid for Primary designation with Spouse or NonSpouse relationship. Entity beneficiaries and Contingent beneficiaries must use PerCapita.
+          enum:
+          - PerCapita
+          - PerStirpes
+        firstName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        middleName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        lastName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        dateOfBirth:
+          type: string
+          pattern: \d{4}-\d{2}-\d{2}
+        entityName:
+          type: string
+          maxLength: 200
+          minLength: 0
+        dateOfFormation:
+          type: string
+          pattern: \d{4}-\d{2}-\d{2}
+        taxId:
+          type: string
+        phoneNumber:
+          type: string
+          pattern: \d{3}-\d{3}-\d{4}
+        email:
+          type: string
+          pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$
+        address:
+          $ref: '#/components/schemas/BeneficiaryAddressV1'
+      required:
+      - designation
+      - designationType
+      - relationship
+    BeneficiaryAllocationV1:
+      type: object
+      description: A single beneficiary allocation entry pairing a beneficiary with a percentage.
+      properties:
+        beneficiaryId:
+          type: string
+          format: uuid
+          description: ID of an existing beneficiary on the account draft.
+        percentage:
+          type: number
+          description: Allocation percentage for this beneficiary. Must be strictly greater than 0 and at most 100, with at most 2 decimal places. Percentages for all beneficiaries within a designation group (Primary or Contingent) must sum to exactly 100.
+          example: 50.0
+          maximum: 100.0
+          minimum: 0.0
+      required:
+      - beneficiaryId
+      - percentage
+    SetBeneficiaryAllocationsRequestV1:
+      type: object
+      description: Request to set allocation percentages for existing beneficiaries on an account draft. This endpoint only updates allocation percentages — no other beneficiary fields can be changed through it. All beneficiaries within a designation group (Primary or Contingent) must be included when any beneficiary of that group is present, and percentages must sum to exactly 100 per group.
+      properties:
+        allocations:
+          type: array
+          description: List of beneficiary allocation entries. Must not be empty. Each entry pairs an existing beneficiaryId with a percentage. No duplicate beneficiaryIds are allowed. All beneficiaries sharing the same designation (Primary or Contingent) must be included if any one of them is, and their percentages must sum to 100.
+          items:
+            $ref: '#/components/schemas/BeneficiaryAllocationV1'
+          minItems: 1
+      required:
+      - allocations
+    BeneficiaryClassV1:
+      type: string
+      description: Beneficiary classification derived from the account type. IraBeneficiary for IRA-type accounts, TodBeneficiary for TOD-type accounts.
+      enum:
+      - IraBeneficiary
+      - TodBeneficiary
+    UpdateBeneficiaryRequestV1:
+      type: object
+      properties:
+        relationship:
+          type: string
+          enum:
+          - Spouse
+          - NonSpouse
+          - Entity
+        designation:
+          type: string
+          enum:
+          - Primary
+          - Contingent
+        designationType:
+          type: string
+          description: Designation type for the beneficiary. PerStirpes is only valid for Primary designation with Spouse or NonSpouse relationship. Entity beneficiaries and Contingent beneficiaries must use PerCapita.
+          enum:
+          - PerCapita
+          - PerStirpes
+        firstName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        middleName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        lastName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        dateOfBirth:
+          type: string
+          pattern: \d{4}-\d{2}-\d{2}
+        entityName:
+          type: string
+          maxLength: 200
+          minLength: 0
+        dateOfFormation:
+          type: string
+          pattern: \d{4}-\d{2}-\d{2}
+        taxId:
+          type: string
+        phoneNumber:
+          type: string
+          pattern: \d{3}-\d{3}-\d{4}
+        email:
+          type: string
+          pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$
+        address:
+          $ref: '#/components/schemas/BeneficiaryAddressV1'
+      required:
+      - designation
+      - designationType
+      - relationship
     ErrorV1:
       type: object
       properties:
@@ -815,23 +962,6 @@ components:
           type: string
         requestId:
           type: string
-    BeneficiaryAllocationV1:
-      type: object
-      description: A single beneficiary allocation entry pairing a beneficiary with a percentage.
-      properties:
-        beneficiaryId:
-          type: string
-          format: uuid
-          description: ID of an existing beneficiary on the account draft.
-        percentage:
-          type: number
-          description: Allocation percentage for this beneficiary. Must be strictly greater than 0 and at most 100, with at most 2 decimal places. Percentages for all beneficiaries within a designation group (Primary or Contingent) must sum to exactly 100.
-          example: 50
-          maximum: 100
-          minimum: 0
-      required:
-      - beneficiaryId
-      - percentage
     PageResponseBeneficiaryV1:
       type: object
       properties:
@@ -904,129 +1034,6 @@ components:
         updated:
           type: string
           format: date-time
-    UpdateBeneficiaryRequestV1:
-      type: object
-      properties:
-        relationship:
-          type: string
-          enum:
-          - Spouse
-          - NonSpouse
-          - Entity
-        designation:
-          type: string
-          enum:
-          - Primary
-          - Contingent
-        designationType:
-          type: string
-          description: Designation type for the beneficiary. PerStirpes is only valid for Primary designation with Spouse or NonSpouse relationship. Entity beneficiaries and Contingent beneficiaries must use PerCapita.
-          enum:
-          - PerCapita
-          - PerStirpes
-        firstName:
-          type: string
-          maxLength: 100
-          minLength: 0
-        middleName:
-          type: string
-          maxLength: 100
-          minLength: 0
-        lastName:
-          type: string
-          maxLength: 100
-          minLength: 0
-        dateOfBirth:
-          type: string
-          pattern: \d{4}-\d{2}-\d{2}
-        entityName:
-          type: string
-          maxLength: 200
-          minLength: 0
-        dateOfFormation:
-          type: string
-          pattern: \d{4}-\d{2}-\d{2}
-        taxId:
-          type: string
-        phoneNumber:
-          type: string
-          pattern: \d{3}-\d{3}-\d{4}
-        email:
-          type: string
-          pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$
-        address:
-          $ref: '#/components/schemas/BeneficiaryAddressV1'
-      required:
-      - designation
-      - designationType
-      - relationship
-    CreateBeneficiaryRequestV1:
-      type: object
-      properties:
-        relationship:
-          type: string
-          enum:
-          - Spouse
-          - NonSpouse
-          - Entity
-        designation:
-          type: string
-          enum:
-          - Primary
-          - Contingent
-        designationType:
-          type: string
-          description: Designation type for the beneficiary. PerStirpes is only valid for Primary designation with Spouse or NonSpouse relationship. Entity beneficiaries and Contingent beneficiaries must use PerCapita.
-          enum:
-          - PerCapita
-          - PerStirpes
-        firstName:
-          type: string
-          maxLength: 100
-          minLength: 0
-        middleName:
-          type: string
-          maxLength: 100
-          minLength: 0
-        lastName:
-          type: string
-          maxLength: 100
-          minLength: 0
-        dateOfBirth:
-          type: string
-          pattern: \d{4}-\d{2}-\d{2}
-        entityName:
-          type: string
-          maxLength: 200
-          minLength: 0
-        dateOfFormation:
-          type: string
-          pattern: \d{4}-\d{2}-\d{2}
-        taxId:
-          type: string
-        phoneNumber:
-          type: string
-          pattern: \d{3}-\d{3}-\d{4}
-        email:
-          type: string
-          pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$
-        address:
-          $ref: '#/components/schemas/BeneficiaryAddressV1'
-      required:
-      - designation
-      - designationType
-      - relationship
-    BatchDeleteBeneficiariesRequestV1:
-      type: object
-      properties:
-        beneficiaryIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          minItems: 1
-      required:
-      - beneficiaryIds
     BeneficiaryAddressV1:
       type: object
       properties:
@@ -1040,130 +1047,14 @@ components:
           type: string
         zipCode:
           type: string
-    BeneficiaryClassV1:
-      type: string
-      description: Beneficiary classification derived from the account type. IraBeneficiary for IRA-type accounts, TodBeneficiary for TOD-type accounts.
-      enum:
-      - IraBeneficiary
-      - TodBeneficiary
-    SetBeneficiaryAllocationsRequestV1:
+    BatchDeleteBeneficiariesRequestV1:
       type: object
-      description: Request to set allocation percentages for existing beneficiaries on an account draft. This endpoint only updates allocation percentages — no other beneficiary fields can be changed through it. All beneficiaries within a designation group (Primary or Contingent) must be included when any beneficiary of that group is present, and percentages must sum to exactly 100 per group.
       properties:
-        allocations:
+        beneficiaryIds:
           type: array
-          description: List of beneficiary allocation entries. Must not be empty. Each entry pairs an existing beneficiaryId with a percentage. No duplicate beneficiaryIds are allowed. All beneficiaries sharing the same designation (Primary or Contingent) must be included if any one of them is, and their percentages must sum to 100.
           items:
-            $ref: '#/components/schemas/BeneficiaryAllocationV1'
+            type: string
+            format: uuid
           minItems: 1
       required:
-      - allocations
-x-provenance:
-  method: searched
-  source: https://developer.altruist.com/reference
-  harvested: '2026-10-13'
-  tool: harvest-readme-openapi.py
-  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
-  assembled_from:
-  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
-  - https://developer.altruist.com/reference/assignaccounttohousehold.md
-  - https://developer.altruist.com/reference/associatedrafttobundle.md
-  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
-  - https://developer.altruist.com/reference/cancelacattransfer.md
-  - https://developer.altruist.com/reference/cancelcashsetaside.md
-  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
-  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/checkdrafteligibility.md
-  - https://developer.altruist.com/reference/createaccountgroup.md
-  - https://developer.altruist.com/reference/createbanklink.md
-  - https://developer.altruist.com/reference/createbeneficiary.md
-  - https://developer.altruist.com/reference/createbundle.md
-  - https://developer.altruist.com/reference/createcashsetaside.md
-  - https://developer.altruist.com/reference/createcashtransfer-1.md
-  - https://developer.altruist.com/reference/createdraftinbundle.md
-  - https://developer.altruist.com/reference/createfundingaccount-1.md
-  - https://developer.altruist.com/reference/createhousehold.md
-  - https://developer.altruist.com/reference/createhouseholdcontact.md
-  - https://developer.altruist.com/reference/createinvite.md
-  - https://developer.altruist.com/reference/createlinktoken.md
-  - https://developer.altruist.com/reference/createplaidfundingaccount.md
-  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/createtransfer-1.md
-  - https://developer.altruist.com/reference/createuser.md
-  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
-  - https://developer.altruist.com/reference/deletebanklink.md
-  - https://developer.altruist.com/reference/deletebeneficiary.md
-  - https://developer.altruist.com/reference/deletebundle.md
-  - https://developer.altruist.com/reference/deleteclientagreement-1.md
-  - https://developer.altruist.com/reference/deletehousehold.md
-  - https://developer.altruist.com/reference/deletetransfer-1.md
-  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
-  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
-  - https://developer.altruist.com/reference/getacattransfer.md
-  - https://developer.altruist.com/reference/getaccount.md
-  - https://developer.altruist.com/reference/getaccountcashsettings.md
-  - https://developer.altruist.com/reference/getaccountgroup.md
-  - https://developer.altruist.com/reference/getaccountgroups.md
-  - https://developer.altruist.com/reference/getaccountportfolio-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
-  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
-  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
-  - https://developer.altruist.com/reference/getalltransfers-1.md
-  - https://developer.altruist.com/reference/getbanklink.md
-  - https://developer.altruist.com/reference/getbeneficiary.md
-  - https://developer.altruist.com/reference/getbundle.md
-  - https://developer.altruist.com/reference/getcashsetaside.md
-  - https://developer.altruist.com/reference/getcashsummary-1.md
-  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
-  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
-  - https://developer.altruist.com/reference/getcontributionlimits-1.md
-  - https://developer.altruist.com/reference/getfundingaccount-1.md
-  - https://developer.altruist.com/reference/gethouseholdbyid.md
-  - https://developer.altruist.com/reference/gethouseholdcontact.md
-  - https://developer.altruist.com/reference/gethouseholdcontacts.md
-  - https://developer.altruist.com/reference/getinvite.md
-  - https://developer.altruist.com/reference/getinvitestatus.md
-  - https://developer.altruist.com/reference/getmmasettings.md
-  - https://developer.altruist.com/reference/getmodel-1.md
-  - https://developer.altruist.com/reference/getpointsofcontact.md
-  - https://developer.altruist.com/reference/getportfolio-1.md
-  - https://developer.altruist.com/reference/getportfolios-1.md
-  - https://developer.altruist.com/reference/getportfolios_1-1.md
-  - https://developer.altruist.com/reference/getsecurities-1.md
-  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
-  - https://developer.altruist.com/reference/gettransferbyid-1.md
-  - https://developer.altruist.com/reference/gettrustedcontact-1.md
-  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
-  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
-  - https://developer.altruist.com/reference/initiateacattransfer.md
-  - https://developer.altruist.com/reference/listacattransfers.md
-  - https://developer.altruist.com/reference/listaccounts.md
-  - https://developer.altruist.com/reference/listbanklinks.md
-  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
-  - https://developer.altruist.com/reference/listbeneficiaries.md
-  - https://developer.altruist.com/reference/listbundles.md
-  - https://developer.altruist.com/reference/listcashsetasides.md
-  - https://developer.altruist.com/reference/listcashtransfers-1.md
-  - https://developer.altruist.com/reference/listdraftsinbundle.md
-  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
-  - https://developer.altruist.com/reference/listhouseholdaccounts.md
-  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
-  - https://developer.altruist.com/reference/removedraftfrombundle.md
-  - https://developer.altruist.com/reference/resendacatconfirmation.md
-  - https://developer.altruist.com/reference/setallocations.md
-  - https://developer.altruist.com/reference/unassignaccount.md
-  - https://developer.altruist.com/reference/updateaccount.md
-  - https://developer.altruist.com/reference/updatebeneficiary.md
-  - https://developer.altruist.com/reference/updateclientagreement-1.md
-  - https://developer.altruist.com/reference/updatedraftinbundle.md
-  - https://developer.altruist.com/reference/updatefundingaccount-1.md
-  - https://developer.altruist.com/reference/updatehousehold.md
-  - https://developer.altruist.com/reference/updatetransfer-1.md
-  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
-  - https://developer.altruist.com/reference/updateuserprofile.md
-  - https://developer.altruist.com/reference/validatecashsetaside.md
-  merge:
-    pages: 98
-    deduped: 228
-    conflicts_kept_first: 0
+      - beneficiaryIds

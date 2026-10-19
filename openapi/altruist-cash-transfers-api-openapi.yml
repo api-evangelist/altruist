@@ -76,20 +76,8 @@ paths:
           default: 50
         example: 50
       responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/PageResponseCashTransferV1'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -106,8 +94,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -118,8 +112,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -136,6 +130,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseCashTransferV1'
     post:
       tags:
       - Cash Transfers
@@ -168,20 +168,8 @@ paths:
               $ref: '#/components/schemas/CreateCashTransferRequestV1'
         required: true
       responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashTransferResponseV1'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -198,8 +186,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -210,8 +204,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -228,6 +222,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashTransferResponseV1'
   /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/cashTransfers/{transferId}:
     delete:
       tags:
@@ -261,17 +261,8 @@ paths:
           type: string
           format: uuid
       responses:
-        '200':
-          description: Transfer canceled
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CashTransferResponseV1'
         '400':
           description: Cash transfer ... is not in pending state.
-          content: {}
-        '401':
-          description: Unauthorized
           content: {}
         '403':
           description: Forbidden
@@ -285,8 +276,11 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content: {}
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -297,8 +291,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -315,8 +309,218 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: Transfer canceled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashTransferResponseV1'
 components:
   schemas:
+    CashTransferV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        direction:
+          type: string
+          enum:
+          - Deposit
+          - Withdrawal
+        mechanism:
+          type: string
+          enum:
+          - Ach
+          - Wire
+          - Check
+          - Journal
+        status:
+          type: string
+          enum:
+          - Pending
+          - Rejected
+          - Cancelled
+          - Approved
+          - FundsHeld
+          - FundsPosted
+          - SentToBank
+          - Complete
+          - Returned
+          - PendingPrinting
+          - Void
+          - StopPayment
+          - Liquidating
+          - PendingLiquidate
+          - PendingCancel
+          - PendingReturn
+          - Failed
+          - Initiated
+        requestedAmount:
+          type: number
+        netAmount:
+          type: number
+        grossAmount:
+          type: number
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        estimatedCompletionDate:
+          type: string
+          format: date-time
+        completedDate:
+          type: string
+          format: date-time
+        settleDate:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        initiatedBy:
+          type: string
+        description:
+          type: string
+        fees:
+          type: string
+        federalWithheld:
+          type: number
+        stateWithheld:
+          type: number
+        partnerTransferId:
+          type: string
+        financialInstitutionName:
+          type: string
+        fundingAccountType:
+          type: string
+        fundingAccountNumber:
+          type: string
+        iraContribution:
+          $ref: '#/components/schemas/IraContributionV1'
+        iraDistribution:
+          $ref: '#/components/schemas/IraDistributionV1'
+        failureReason:
+          type: string
+    PageResponseCashTransferV1:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashTransferV1'
+    CashTransferResponseV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        shouldRebalance:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - Pending
+          - Rejected
+          - Cancelled
+          - Approved
+          - FundsHeld
+          - FundsPosted
+          - SentToBank
+          - Complete
+          - Returned
+          - PendingPrinting
+          - Void
+          - StopPayment
+          - Liquidating
+          - PendingLiquidate
+          - PendingCancel
+          - PendingReturn
+          - Failed
+          - Initiated
+        cancelledAt:
+          type: string
+          format: date-time
+    IraContributionV1:
+      type: object
+      properties:
+        reason:
+          type: string
+          enum:
+          - Regular
+          - Employee
+          - Employer
+          - Rollover60Day
+          - Unknown
+        applyToPriorYear:
+          type: boolean
+      required:
+      - applyToPriorYear
+      - reason
+    IraDistributionV1:
+      type: object
+      properties:
+        reason:
+          type: string
+          enum:
+          - Normal
+          - Disability
+          - Premature
+          - Death
+          - ExcessContributionRemovalBeforeTaxDeadline
+          - ExcessContributionRemovalAfterTaxDeadline
+          - ExcessContributionRemovalBeforePriorYear
+          - Unknown
+        federalWithholding:
+          $ref: '#/components/schemas/TaxWithholdingV1'
+        stateWithholding:
+          $ref: '#/components/schemas/TaxWithholdingV1'
+      required:
+      - reason
+    CreateCashTransferRequestV1:
+      type: object
+      properties:
+        fundingAccountId:
+          type: string
+          format: uuid
+        direction:
+          type: string
+          enum:
+          - Deposit
+          - Withdrawal
+        amount:
+          type: number
+        iraContribution:
+          $ref: '#/components/schemas/IraContributionV1'
+        iraDistribution:
+          $ref: '#/components/schemas/IraDistributionV1'
+      required:
+      - amount
+      - direction
+      - fundingAccountId
+    TaxWithholdingV1:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Percentage
+          - Fixed
+        value:
+          type: number
     ErrorV1:
       type: object
       properties:
@@ -417,316 +621,3 @@ components:
           type: string
         requestId:
           type: string
-    CreateCashTransferRequestV1:
-      type: object
-      properties:
-        fundingAccountId:
-          type: string
-          format: uuid
-        direction:
-          type: string
-          enum:
-          - Deposit
-          - Withdrawal
-        amount:
-          type: number
-        iraContribution:
-          $ref: '#/components/schemas/IraContributionV1'
-        iraDistribution:
-          $ref: '#/components/schemas/IraDistributionV1'
-      required:
-      - amount
-      - direction
-      - fundingAccountId
-    IraContributionV1:
-      type: object
-      properties:
-        reason:
-          type: string
-          enum:
-          - Regular
-          - Employee
-          - Employer
-          - Rollover60Day
-          - Unknown
-        applyToPriorYear:
-          type: boolean
-      required:
-      - applyToPriorYear
-      - reason
-    PageResponseCashTransferV1:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CashTransferV1'
-    CashTransferResponseV1:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        shouldRebalance:
-          type: boolean
-        status:
-          type: string
-          enum:
-          - Pending
-          - Rejected
-          - Cancelled
-          - Approved
-          - FundsHeld
-          - FundsPosted
-          - SentToBank
-          - Complete
-          - Returned
-          - PendingPrinting
-          - Void
-          - StopPayment
-          - Liquidating
-          - PendingLiquidate
-          - PendingCancel
-          - PendingReturn
-          - Failed
-          - Initiated
-        cancelledAt:
-          type: string
-          format: date-time
-    TaxWithholdingV1:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Percentage
-          - Fixed
-        value:
-          type: number
-    CashTransferV1:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        accountId:
-          type: string
-          format: uuid
-        direction:
-          type: string
-          enum:
-          - Deposit
-          - Withdrawal
-        mechanism:
-          type: string
-          enum:
-          - Ach
-          - Wire
-          - Check
-          - Journal
-        status:
-          type: string
-          enum:
-          - Pending
-          - Rejected
-          - Cancelled
-          - Approved
-          - FundsHeld
-          - FundsPosted
-          - SentToBank
-          - Complete
-          - Returned
-          - PendingPrinting
-          - Void
-          - StopPayment
-          - Liquidating
-          - PendingLiquidate
-          - PendingCancel
-          - PendingReturn
-          - Failed
-          - Initiated
-        requestedAmount:
-          type: number
-        netAmount:
-          type: number
-        grossAmount:
-          type: number
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        estimatedCompletionDate:
-          type: string
-          format: date-time
-        completedDate:
-          type: string
-          format: date-time
-        settleDate:
-          type: string
-          format: date-time
-        createdBy:
-          type: string
-        initiatedBy:
-          type: string
-        description:
-          type: string
-        fees:
-          type: string
-        federalWithheld:
-          type: number
-        stateWithheld:
-          type: number
-        partnerTransferId:
-          type: string
-        financialInstitutionName:
-          type: string
-        fundingAccountType:
-          type: string
-        fundingAccountNumber:
-          type: string
-        iraContribution:
-          $ref: '#/components/schemas/IraContributionV1'
-        iraDistribution:
-          $ref: '#/components/schemas/IraDistributionV1'
-        failureReason:
-          type: string
-    IraDistributionV1:
-      type: object
-      properties:
-        reason:
-          type: string
-          enum:
-          - Normal
-          - Disability
-          - Premature
-          - Death
-          - ExcessContributionRemovalBeforeTaxDeadline
-          - ExcessContributionRemovalAfterTaxDeadline
-          - ExcessContributionRemovalBeforePriorYear
-          - Unknown
-        federalWithholding:
-          $ref: '#/components/schemas/TaxWithholdingV1'
-        stateWithholding:
-          $ref: '#/components/schemas/TaxWithholdingV1'
-      required:
-      - reason
-x-provenance:
-  method: searched
-  source: https://developer.altruist.com/reference
-  harvested: '2026-10-13'
-  tool: harvest-readme-openapi.py
-  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
-  assembled_from:
-  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
-  - https://developer.altruist.com/reference/assignaccounttohousehold.md
-  - https://developer.altruist.com/reference/associatedrafttobundle.md
-  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
-  - https://developer.altruist.com/reference/cancelacattransfer.md
-  - https://developer.altruist.com/reference/cancelcashsetaside.md
-  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
-  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/checkdrafteligibility.md
-  - https://developer.altruist.com/reference/createaccountgroup.md
-  - https://developer.altruist.com/reference/createbanklink.md
-  - https://developer.altruist.com/reference/createbeneficiary.md
-  - https://developer.altruist.com/reference/createbundle.md
-  - https://developer.altruist.com/reference/createcashsetaside.md
-  - https://developer.altruist.com/reference/createcashtransfer-1.md
-  - https://developer.altruist.com/reference/createdraftinbundle.md
-  - https://developer.altruist.com/reference/createfundingaccount-1.md
-  - https://developer.altruist.com/reference/createhousehold.md
-  - https://developer.altruist.com/reference/createhouseholdcontact.md
-  - https://developer.altruist.com/reference/createinvite.md
-  - https://developer.altruist.com/reference/createlinktoken.md
-  - https://developer.altruist.com/reference/createplaidfundingaccount.md
-  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/createtransfer-1.md
-  - https://developer.altruist.com/reference/createuser.md
-  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
-  - https://developer.altruist.com/reference/deletebanklink.md
-  - https://developer.altruist.com/reference/deletebeneficiary.md
-  - https://developer.altruist.com/reference/deletebundle.md
-  - https://developer.altruist.com/reference/deleteclientagreement-1.md
-  - https://developer.altruist.com/reference/deletehousehold.md
-  - https://developer.altruist.com/reference/deletetransfer-1.md
-  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
-  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
-  - https://developer.altruist.com/reference/getacattransfer.md
-  - https://developer.altruist.com/reference/getaccount.md
-  - https://developer.altruist.com/reference/getaccountcashsettings.md
-  - https://developer.altruist.com/reference/getaccountgroup.md
-  - https://developer.altruist.com/reference/getaccountgroups.md
-  - https://developer.altruist.com/reference/getaccountportfolio-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
-  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
-  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
-  - https://developer.altruist.com/reference/getalltransfers-1.md
-  - https://developer.altruist.com/reference/getbanklink.md
-  - https://developer.altruist.com/reference/getbeneficiary.md
-  - https://developer.altruist.com/reference/getbundle.md
-  - https://developer.altruist.com/reference/getcashsetaside.md
-  - https://developer.altruist.com/reference/getcashsummary-1.md
-  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
-  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
-  - https://developer.altruist.com/reference/getcontributionlimits-1.md
-  - https://developer.altruist.com/reference/getfundingaccount-1.md
-  - https://developer.altruist.com/reference/gethouseholdbyid.md
-  - https://developer.altruist.com/reference/gethouseholdcontact.md
-  - https://developer.altruist.com/reference/gethouseholdcontacts.md
-  - https://developer.altruist.com/reference/getinvite.md
-  - https://developer.altruist.com/reference/getinvitestatus.md
-  - https://developer.altruist.com/reference/getmmasettings.md
-  - https://developer.altruist.com/reference/getmodel-1.md
-  - https://developer.altruist.com/reference/getpointsofcontact.md
-  - https://developer.altruist.com/reference/getportfolio-1.md
-  - https://developer.altruist.com/reference/getportfolios-1.md
-  - https://developer.altruist.com/reference/getportfolios_1-1.md
-  - https://developer.altruist.com/reference/getsecurities-1.md
-  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
-  - https://developer.altruist.com/reference/gettransferbyid-1.md
-  - https://developer.altruist.com/reference/gettrustedcontact-1.md
-  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
-  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
-  - https://developer.altruist.com/reference/initiateacattransfer.md
-  - https://developer.altruist.com/reference/listacattransfers.md
-  - https://developer.altruist.com/reference/listaccounts.md
-  - https://developer.altruist.com/reference/listbanklinks.md
-  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
-  - https://developer.altruist.com/reference/listbeneficiaries.md
-  - https://developer.altruist.com/reference/listbundles.md
-  - https://developer.altruist.com/reference/listcashsetasides.md
-  - https://developer.altruist.com/reference/listcashtransfers-1.md
-  - https://developer.altruist.com/reference/listdraftsinbundle.md
-  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
-  - https://developer.altruist.com/reference/listhouseholdaccounts.md
-  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
-  - https://developer.altruist.com/reference/removedraftfrombundle.md
-  - https://developer.altruist.com/reference/resendacatconfirmation.md
-  - https://developer.altruist.com/reference/setallocations.md
-  - https://developer.altruist.com/reference/unassignaccount.md
-  - https://developer.altruist.com/reference/updateaccount.md
-  - https://developer.altruist.com/reference/updatebeneficiary.md
-  - https://developer.altruist.com/reference/updateclientagreement-1.md
-  - https://developer.altruist.com/reference/updatedraftinbundle.md
-  - https://developer.altruist.com/reference/updatefundingaccount-1.md
-  - https://developer.altruist.com/reference/updatehousehold.md
-  - https://developer.altruist.com/reference/updatetransfer-1.md
-  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
-  - https://developer.altruist.com/reference/updateuserprofile.md
-  - https://developer.altruist.com/reference/validatecashsetaside.md
-  merge:
-    pages: 98
-    deduped: 228
-    conflicts_kept_first: 0

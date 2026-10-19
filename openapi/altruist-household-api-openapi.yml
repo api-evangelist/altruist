@@ -11,86 +11,6 @@ tags:
   description: Household management
 paths:
   /api/v1/orgs/{orgId}/households:
-    post:
-      tags:
-      - Household
-      operationId: createHousehold
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HouseholdInputV1'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HouseholdV1'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-      summary: Create household
-      x-summary-source: derived
     get:
       tags:
       - Household
@@ -125,17 +45,8 @@ paths:
           type: boolean
           default: false
       responses:
-        '200':
-          description: Paginated list of households (may be empty)
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/PageResponseHouseholdV1'
         '400':
           description: Invalid input — page or size is out of range
-          content: {}
-        '401':
-          description: Unauthorized — missing or invalid token
           content: {}
         '403':
           description: Access denied — caller does not have view access to the organization
@@ -146,8 +57,11 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized — missing or invalid token
+          content: {}
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -158,8 +72,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -176,6 +90,92 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: Paginated list of households (may be empty)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseHouseholdV1'
+    post:
+      tags:
+      - Household
+      operationId: createHousehold
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HouseholdInputV1'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HouseholdV1'
+      summary: Create household
+      x-summary-source: derived
   /api/v1/orgs/{orgId}/households/{householdId}:
     get:
       tags:
@@ -195,20 +195,8 @@ paths:
           type: string
           format: uuid
       responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HouseholdV1'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -225,8 +213,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -237,8 +231,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -255,8 +249,90 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HouseholdV1'
       summary: Get household by id
       x-summary-source: derived
+    delete:
+      tags:
+      - Household
+      summary: Delete a household
+      description: Deletes a household. The household must have no accounts assigned and no billing schedules before deletion can proceed; member accounts must be unassigned by the partner first, after which they become unassigned. The caller must be an advisor in the organization with access on the household.
+      operationId: deleteHousehold
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: 'Access denied: caller is not an advisor in the organization or lacks access on the household'
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Household not found in the organization
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: 'Unauthorized: missing or invalid token'
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Household has accounts or a billing schedule still assigned and cannot be deleted
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '204':
+          description: Household deleted
     patch:
       tags:
       - Household
@@ -283,17 +359,8 @@ paths:
               $ref: '#/components/schemas/HouseholdInputV1'
         required: true
       responses:
-        '200':
-          description: Household updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HouseholdV1'
         '400':
           description: Invalid input — name is missing or blank
-          content: {}
-        '401':
-          description: Unauthorized — missing or invalid token
           content: {}
         '403':
           description: Access denied — caller is not an advisor in the organization or lacks access on the household
@@ -301,24 +368,27 @@ paths:
         '404':
           description: Household not found in the organization
           content: {}
+        '401':
+          description: Unauthorized — missing or invalid token
+          content: {}
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
         '409':
           description: Conflict
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
         '501':
           description: Not Implemented
           content:
@@ -331,100 +401,35 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-    delete:
-      tags:
-      - Household
-      summary: Delete a household
-      description: Deletes a household. The household must have no accounts assigned and no billing schedules before deletion can proceed; member accounts must be unassigned by the partner first, after which they become unassigned. The caller must be an advisor in the organization with access on the household.
-      operationId: deleteHousehold
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        '204':
-          description: Household deleted
-        '400':
-          description: Bad Request
+        '200':
+          description: Household updated
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: 'Unauthorized: missing or invalid token'
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: 'Access denied: caller is not an advisor in the organization or lacks access on the household'
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Household not found in the organization
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Household has accounts or a billing schedule still assigned and cannot be deleted
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
+                $ref: '#/components/schemas/HouseholdV1'
 components:
   schemas:
-    PageResponseHouseholdV1:
+    HouseholdV1:
       type: object
       properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/HouseholdV1'
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+        orgId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        isAltruistOneEnrolled:
+          type: boolean
+      required:
+      - name
     ErrorV1:
       type: object
       properties:
@@ -525,27 +530,22 @@ components:
           type: string
         requestId:
           type: string
-    HouseholdV1:
+    PageResponseHouseholdV1:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-          minLength: 1
-        orgId:
-          type: string
-          format: uuid
-        status:
-          type: string
-          enum:
-          - Active
-          - Inactive
-        isAltruistOneEnrolled:
-          type: boolean
-      required:
-      - name
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HouseholdV1'
     HouseholdInputV1:
       type: object
       properties:
@@ -554,112 +554,3 @@ components:
           minLength: 1
       required:
       - name
-x-provenance:
-  method: searched
-  source: https://developer.altruist.com/reference
-  harvested: '2026-10-13'
-  tool: harvest-readme-openapi.py
-  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
-  assembled_from:
-  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
-  - https://developer.altruist.com/reference/assignaccounttohousehold.md
-  - https://developer.altruist.com/reference/associatedrafttobundle.md
-  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
-  - https://developer.altruist.com/reference/cancelacattransfer.md
-  - https://developer.altruist.com/reference/cancelcashsetaside.md
-  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
-  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/checkdrafteligibility.md
-  - https://developer.altruist.com/reference/createaccountgroup.md
-  - https://developer.altruist.com/reference/createbanklink.md
-  - https://developer.altruist.com/reference/createbeneficiary.md
-  - https://developer.altruist.com/reference/createbundle.md
-  - https://developer.altruist.com/reference/createcashsetaside.md
-  - https://developer.altruist.com/reference/createcashtransfer-1.md
-  - https://developer.altruist.com/reference/createdraftinbundle.md
-  - https://developer.altruist.com/reference/createfundingaccount-1.md
-  - https://developer.altruist.com/reference/createhousehold.md
-  - https://developer.altruist.com/reference/createhouseholdcontact.md
-  - https://developer.altruist.com/reference/createinvite.md
-  - https://developer.altruist.com/reference/createlinktoken.md
-  - https://developer.altruist.com/reference/createplaidfundingaccount.md
-  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/createtransfer-1.md
-  - https://developer.altruist.com/reference/createuser.md
-  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
-  - https://developer.altruist.com/reference/deletebanklink.md
-  - https://developer.altruist.com/reference/deletebeneficiary.md
-  - https://developer.altruist.com/reference/deletebundle.md
-  - https://developer.altruist.com/reference/deleteclientagreement-1.md
-  - https://developer.altruist.com/reference/deletehousehold.md
-  - https://developer.altruist.com/reference/deletetransfer-1.md
-  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
-  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
-  - https://developer.altruist.com/reference/getacattransfer.md
-  - https://developer.altruist.com/reference/getaccount.md
-  - https://developer.altruist.com/reference/getaccountcashsettings.md
-  - https://developer.altruist.com/reference/getaccountgroup.md
-  - https://developer.altruist.com/reference/getaccountgroups.md
-  - https://developer.altruist.com/reference/getaccountportfolio-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
-  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
-  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
-  - https://developer.altruist.com/reference/getalltransfers-1.md
-  - https://developer.altruist.com/reference/getbanklink.md
-  - https://developer.altruist.com/reference/getbeneficiary.md
-  - https://developer.altruist.com/reference/getbundle.md
-  - https://developer.altruist.com/reference/getcashsetaside.md
-  - https://developer.altruist.com/reference/getcashsummary-1.md
-  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
-  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
-  - https://developer.altruist.com/reference/getcontributionlimits-1.md
-  - https://developer.altruist.com/reference/getfundingaccount-1.md
-  - https://developer.altruist.com/reference/gethouseholdbyid.md
-  - https://developer.altruist.com/reference/gethouseholdcontact.md
-  - https://developer.altruist.com/reference/gethouseholdcontacts.md
-  - https://developer.altruist.com/reference/getinvite.md
-  - https://developer.altruist.com/reference/getinvitestatus.md
-  - https://developer.altruist.com/reference/getmmasettings.md
-  - https://developer.altruist.com/reference/getmodel-1.md
-  - https://developer.altruist.com/reference/getpointsofcontact.md
-  - https://developer.altruist.com/reference/getportfolio-1.md
-  - https://developer.altruist.com/reference/getportfolios-1.md
-  - https://developer.altruist.com/reference/getportfolios_1-1.md
-  - https://developer.altruist.com/reference/getsecurities-1.md
-  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
-  - https://developer.altruist.com/reference/gettransferbyid-1.md
-  - https://developer.altruist.com/reference/gettrustedcontact-1.md
-  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
-  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
-  - https://developer.altruist.com/reference/initiateacattransfer.md
-  - https://developer.altruist.com/reference/listacattransfers.md
-  - https://developer.altruist.com/reference/listaccounts.md
-  - https://developer.altruist.com/reference/listbanklinks.md
-  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
-  - https://developer.altruist.com/reference/listbeneficiaries.md
-  - https://developer.altruist.com/reference/listbundles.md
-  - https://developer.altruist.com/reference/listcashsetasides.md
-  - https://developer.altruist.com/reference/listcashtransfers-1.md
-  - https://developer.altruist.com/reference/listdraftsinbundle.md
-  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
-  - https://developer.altruist.com/reference/listhouseholdaccounts.md
-  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
-  - https://developer.altruist.com/reference/removedraftfrombundle.md
-  - https://developer.altruist.com/reference/resendacatconfirmation.md
-  - https://developer.altruist.com/reference/setallocations.md
-  - https://developer.altruist.com/reference/unassignaccount.md
-  - https://developer.altruist.com/reference/updateaccount.md
-  - https://developer.altruist.com/reference/updatebeneficiary.md
-  - https://developer.altruist.com/reference/updateclientagreement-1.md
-  - https://developer.altruist.com/reference/updatedraftinbundle.md
-  - https://developer.altruist.com/reference/updatefundingaccount-1.md
-  - https://developer.altruist.com/reference/updatehousehold.md
-  - https://developer.altruist.com/reference/updatetransfer-1.md
-  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
-  - https://developer.altruist.com/reference/updateuserprofile.md
-  - https://developer.altruist.com/reference/validatecashsetaside.md
-  merge:
-    pages: 98
-    deduped: 228
-    conflicts_kept_first: 0

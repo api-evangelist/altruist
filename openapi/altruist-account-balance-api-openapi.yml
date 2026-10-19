@@ -8,276 +8,8 @@ servers:
   description: API Server
 tags:
 - name: Account Balance
-  description: Account data and operations
+  description: Account Summary Data
 paths:
-  /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/aggregateRetirementTransactions:
-    get:
-      tags:
-      - Account Balance
-      summary: Get aggregated retirement account transactions
-      description: Returns aggregated IRA/retirement transaction data including distributions, contributions, RMDs, and scheduled transfers for the specified tax year
-      operationId: getAggregatedTransactions_1
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: taxYear
-        in: query
-        description: Tax year (defaults to current year)
-        required: false
-        schema:
-          type: integer
-          format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/AggregatedTxnInfoV1'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-  /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/cashBalance:
-    get:
-      tags:
-      - Account Balance
-      summary: Get cash balance summary for an account
-      description: Summary aggregate of cash positions, available cash balance, and pending transactions for an account
-      operationId: getCashSummary
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashBalanceV1'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-  /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/mma:
-    get:
-      tags:
-      - Account Balance
-      summary: Get MMA settings for an account
-      description: Retrieves Money Movement Authorization opt-in/out settings for an account
-      operationId: getMmaSettings
-      parameters:
-      - name: orgId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: householdId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: accountId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/MmaSettingsV1'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '404':
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '422':
-          description: Unprocessable Entity
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '501':
-          description: Not Implemented
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '502':
-          description: Bad Gateway
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
   /api/v1/orgs/{orgId}/households/{householdId}/aggregateRetirementTransactions:
     get:
       tags:
@@ -322,20 +54,8 @@ paths:
           format: int32
           default: 50
       responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/PageResponseAggregatedTxnInfoV1'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -352,8 +72,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -364,8 +90,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -382,6 +108,280 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseAggregatedTxnInfoV1'
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/mma:
+    get:
+      tags:
+      - Account Balance
+      summary: Get MMA settings for an account
+      description: Retrieves Money Movement Authorization opt-in/out settings for an account
+      operationId: getMmaSettings
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MmaSettingsV1'
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/cashBalance:
+    get:
+      tags:
+      - Account Balance
+      summary: Get cash balance summary for an account
+      description: Summary aggregate of cash positions, available cash balance, and pending transactions for an account
+      operationId: getCashSummary
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashBalanceV1'
+  /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/aggregateRetirementTransactions:
+    get:
+      tags:
+      - Account Balance
+      summary: Get aggregated retirement account transactions
+      description: Returns aggregated IRA/retirement transaction data including distributions, contributions, RMDs, and scheduled transfers for the specified tax year
+      operationId: getAggregatedTransactions_1
+      parameters:
+      - name: orgId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: householdId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: taxYear
+        in: query
+        description: Tax year (defaults to current year)
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AggregatedTxnInfoV1'
 components:
   schemas:
     PageResponseAggregatedTxnInfoV1:
@@ -413,6 +413,98 @@ components:
           items:
             type: string
             format: uuid
+    AggregatedTxnInfoV1:
+      type: object
+      description: Aggregated transaction information for a single account
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Financial account UUID (unique identifier)
+        accountNumber:
+          type: string
+          description: Account number
+        accountType:
+          type: string
+          description: Type/category of the account (e.g., IRA, ROTH_IRA)
+        primaryBeneficiaryAge:
+          type: integer
+          format: int32
+          description: Age of primary beneficiary
+        distributionsYTD:
+          type: number
+          description: Total distributions year-to-date
+        contributionsYTD:
+          type: number
+          description: Total contributions year-to-date
+        aggregateSumOfPreviousTaxYearContributions:
+          type: number
+          description: Sum of contributions from previous tax year
+        aggregateSumOfPreviousTaxYearDistributions:
+          type: number
+          description: Sum of distributions from previous tax year
+        estimatedRemainingScheduledContributions:
+          type: number
+          description: Estimated remaining scheduled contributions
+        estimatedRemainingScheduledDistributions:
+          type: number
+          description: Estimated remaining scheduled distributions
+        yearlyMaximum:
+          type: number
+          description: Maximum contribution allowed for the year
+        totalRmd:
+          type: number
+          description: Total required minimum distribution
+        totalRmdPreviousYear:
+          type: number
+          description: Required minimum distribution from previous year
+        isAutomatedRmd:
+          type: boolean
+          description: Whether RMD is automated
+        autoRmdFrequency:
+          type: string
+          description: Frequency of automated RMD
+          enum:
+          - Weekly
+          - Biweekly
+          - Monthly
+          - Quarterly
+          - SemiAnnually
+          - Annually
+          - OneTime
+          - Once
+        requiresRmdCalculation:
+          type: boolean
+          description: Whether RMD calculation is required
+      required:
+      - id
+    CashBalanceV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        balance:
+          type: number
+        availableForTrade:
+          type: number
+        availableForWithdrawal:
+          type: number
+        unsettledCash:
+          type: number
+        pendingDeposits:
+          type: number
+        pendingWithdrawals:
+          type: number
+        pendingBuyOrders:
+          type: number
+        pendingSellOrders:
+          type: number
+        currency:
+          type: string
+        asOfDate:
+          type: string
+          format: date
     ErrorV1:
       type: object
       properties:
@@ -513,204 +605,3 @@ components:
           type: string
         requestId:
           type: string
-    AggregatedTxnInfoV1:
-      type: object
-      description: Aggregated transaction information for a single account
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Financial account UUID (unique identifier)
-        accountNumber:
-          type: string
-          description: Account number
-        accountType:
-          type: string
-          description: Type/category of the account (e.g., IRA, ROTH_IRA)
-        primaryBeneficiaryAge:
-          type: integer
-          format: int32
-          description: Age of primary beneficiary
-        distributionsYTD:
-          type: number
-          description: Total distributions year-to-date
-        contributionsYTD:
-          type: number
-          description: Total contributions year-to-date
-        aggregateSumOfPreviousTaxYearContributions:
-          type: number
-          description: Sum of contributions from previous tax year
-        aggregateSumOfPreviousTaxYearDistributions:
-          type: number
-          description: Sum of distributions from previous tax year
-        estimatedRemainingScheduledContributions:
-          type: number
-          description: Estimated remaining scheduled contributions
-        estimatedRemainingScheduledDistributions:
-          type: number
-          description: Estimated remaining scheduled distributions
-        yearlyMaximum:
-          type: number
-          description: Maximum contribution allowed for the year
-        totalRmd:
-          type: number
-          description: Total required minimum distribution
-        totalRmdPreviousYear:
-          type: number
-          description: Required minimum distribution from previous year
-        isAutomatedRmd:
-          type: boolean
-          description: Whether RMD is automated
-        autoRmdFrequency:
-          type: string
-          description: Frequency of automated RMD
-          enum:
-          - Weekly
-          - Biweekly
-          - Monthly
-          - Quarterly
-          - SemiAnnually
-          - Annually
-          - OneTime
-          - Once
-        requiresRmdCalculation:
-          type: boolean
-          description: Whether RMD calculation is required
-      required:
-      - id
-    CashBalanceV1:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        balance:
-          type: number
-        availableForTrade:
-          type: number
-        availableForWithdrawal:
-          type: number
-        unsettledCash:
-          type: number
-        pendingDeposits:
-          type: number
-        pendingWithdrawals:
-          type: number
-        pendingBuyOrders:
-          type: number
-        pendingSellOrders:
-          type: number
-        currency:
-          type: string
-        asOfDate:
-          type: string
-          format: date
-x-provenance:
-  method: searched
-  source: https://developer.altruist.com/reference
-  harvested: '2026-10-13'
-  tool: harvest-readme-openapi.py
-  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
-  assembled_from:
-  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
-  - https://developer.altruist.com/reference/assignaccounttohousehold.md
-  - https://developer.altruist.com/reference/associatedrafttobundle.md
-  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
-  - https://developer.altruist.com/reference/cancelacattransfer.md
-  - https://developer.altruist.com/reference/cancelcashsetaside.md
-  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
-  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/checkdrafteligibility.md
-  - https://developer.altruist.com/reference/createaccountgroup.md
-  - https://developer.altruist.com/reference/createbanklink.md
-  - https://developer.altruist.com/reference/createbeneficiary.md
-  - https://developer.altruist.com/reference/createbundle.md
-  - https://developer.altruist.com/reference/createcashsetaside.md
-  - https://developer.altruist.com/reference/createcashtransfer-1.md
-  - https://developer.altruist.com/reference/createdraftinbundle.md
-  - https://developer.altruist.com/reference/createfundingaccount-1.md
-  - https://developer.altruist.com/reference/createhousehold.md
-  - https://developer.altruist.com/reference/createhouseholdcontact.md
-  - https://developer.altruist.com/reference/createinvite.md
-  - https://developer.altruist.com/reference/createlinktoken.md
-  - https://developer.altruist.com/reference/createplaidfundingaccount.md
-  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/createtransfer-1.md
-  - https://developer.altruist.com/reference/createuser.md
-  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
-  - https://developer.altruist.com/reference/deletebanklink.md
-  - https://developer.altruist.com/reference/deletebeneficiary.md
-  - https://developer.altruist.com/reference/deletebundle.md
-  - https://developer.altruist.com/reference/deleteclientagreement-1.md
-  - https://developer.altruist.com/reference/deletehousehold.md
-  - https://developer.altruist.com/reference/deletetransfer-1.md
-  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
-  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
-  - https://developer.altruist.com/reference/getacattransfer.md
-  - https://developer.altruist.com/reference/getaccount.md
-  - https://developer.altruist.com/reference/getaccountcashsettings.md
-  - https://developer.altruist.com/reference/getaccountgroup.md
-  - https://developer.altruist.com/reference/getaccountgroups.md
-  - https://developer.altruist.com/reference/getaccountportfolio-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
-  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
-  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
-  - https://developer.altruist.com/reference/getalltransfers-1.md
-  - https://developer.altruist.com/reference/getbanklink.md
-  - https://developer.altruist.com/reference/getbeneficiary.md
-  - https://developer.altruist.com/reference/getbundle.md
-  - https://developer.altruist.com/reference/getcashsetaside.md
-  - https://developer.altruist.com/reference/getcashsummary-1.md
-  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
-  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
-  - https://developer.altruist.com/reference/getcontributionlimits-1.md
-  - https://developer.altruist.com/reference/getfundingaccount-1.md
-  - https://developer.altruist.com/reference/gethouseholdbyid.md
-  - https://developer.altruist.com/reference/gethouseholdcontact.md
-  - https://developer.altruist.com/reference/gethouseholdcontacts.md
-  - https://developer.altruist.com/reference/getinvite.md
-  - https://developer.altruist.com/reference/getinvitestatus.md
-  - https://developer.altruist.com/reference/getmmasettings.md
-  - https://developer.altruist.com/reference/getmodel-1.md
-  - https://developer.altruist.com/reference/getpointsofcontact.md
-  - https://developer.altruist.com/reference/getportfolio-1.md
-  - https://developer.altruist.com/reference/getportfolios-1.md
-  - https://developer.altruist.com/reference/getportfolios_1-1.md
-  - https://developer.altruist.com/reference/getsecurities-1.md
-  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
-  - https://developer.altruist.com/reference/gettransferbyid-1.md
-  - https://developer.altruist.com/reference/gettrustedcontact-1.md
-  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
-  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
-  - https://developer.altruist.com/reference/initiateacattransfer.md
-  - https://developer.altruist.com/reference/listacattransfers.md
-  - https://developer.altruist.com/reference/listaccounts.md
-  - https://developer.altruist.com/reference/listbanklinks.md
-  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
-  - https://developer.altruist.com/reference/listbeneficiaries.md
-  - https://developer.altruist.com/reference/listbundles.md
-  - https://developer.altruist.com/reference/listcashsetasides.md
-  - https://developer.altruist.com/reference/listcashtransfers-1.md
-  - https://developer.altruist.com/reference/listdraftsinbundle.md
-  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
-  - https://developer.altruist.com/reference/listhouseholdaccounts.md
-  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
-  - https://developer.altruist.com/reference/removedraftfrombundle.md
-  - https://developer.altruist.com/reference/resendacatconfirmation.md
-  - https://developer.altruist.com/reference/setallocations.md
-  - https://developer.altruist.com/reference/unassignaccount.md
-  - https://developer.altruist.com/reference/updateaccount.md
-  - https://developer.altruist.com/reference/updatebeneficiary.md
-  - https://developer.altruist.com/reference/updateclientagreement-1.md
-  - https://developer.altruist.com/reference/updatedraftinbundle.md
-  - https://developer.altruist.com/reference/updatefundingaccount-1.md
-  - https://developer.altruist.com/reference/updatehousehold.md
-  - https://developer.altruist.com/reference/updatetransfer-1.md
-  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
-  - https://developer.altruist.com/reference/updateuserprofile.md
-  - https://developer.altruist.com/reference/validatecashsetaside.md
-  merge:
-    pages: 98
-    deduped: 228
-    conflicts_kept_first: 0

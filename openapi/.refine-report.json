@@ -1,8 +1,14 @@
 {
   "provider": "altruist",
   "sources": [
-    "altruist-enterprise-realtime-api-openapi.yml",
-    "altruist-open-api-openapi.yml"
+    "_original/altruist-openapi.json",
+    "altruist-accounts-api-openapi.yml",
+    "altruist-cost-basis-api-openapi.yml",
+    "altruist-data-feed-api-openapi.yml",
+    "altruist-historical-data-feed-api-openapi.yml",
+    "altruist-households-api-openapi.yml",
+    "altruist-positions-api-openapi.yml",
+    "altruist-transactions-api-openapi.yml"
   ],
   "outputs": [
     "altruist-acat-transfers-api-openapi.yml",
@@ -17,9 +23,11 @@
     "altruist-cash-transfers-api-openapi.yml",
     "altruist-client-agreement-api-openapi.yml",
     "altruist-contribution-limits-api-openapi.yml",
+    "altruist-demo-pre-release-api-openapi.yml",
     "altruist-draft-beneficiaries-api-openapi.yml",
     "altruist-funding-accounts-api-openapi.yml",
     "altruist-funding-eligible-accounts-api-openapi.yml",
+    "altruist-health-api-openapi.yml",
     "altruist-household-api-openapi.yml",
     "altruist-household-accounts-api-openapi.yml",
     "altruist-household-contact-api-openapi.yml",
@@ -41,27 +49,50 @@
     "altruist-positions-api-openapi.yml",
     "altruist-transactions-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [
-    "altruist-enterprise-realtime-api-openapi.yml: previously refined output kept for 98 operation(s) no archived document covers (e.g. /api/v1/orgs/{orgId}/accountGroups get, /api/v1/orgs/{orgId}/accountGroups post, /api/v1/orgs/{orgId}/accountGroups/{accountGroupId} get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
-    "altruist-open-api-openapi.yml: previously refined output kept for 14 operation(s) no archived document covers (e.g. /api/v1/accounts/{household_id} get, /api/v1/cost-basis/{account_id} get, /api/v1/households get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+    "altruist-accounts-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /api/v1/accounts/{household_id} get, /v2/accounts get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "altruist-cost-basis-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /api/v1/cost-basis/{account_id} get, /v2/accounts/{account_id}/cost-basis get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "altruist-data-feed-api-openapi.yml: previously refined output kept for 4 operation(s) no archived document covers (e.g. /v2/partners/{partner_code}/data-feed get, /v2/partners/{partner_code}/data-feed post, /v2/partners/{partner_code}/data-feed/{feed_id} delete); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "altruist-historical-data-feed-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v2/partners/{partner_code}/historical-data post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "altruist-households-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /api/v1/households get, /v2/households get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "altruist-positions-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /api/v1/positions/{account_id} get, /v2/accounts/{account_id}/positions get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "altruist-transactions-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v2/accounts/{account_id}/transactions get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
   ],
   "notes": [
-    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "altruist-enterprise-realtime-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "altruist-open-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
-    "altruist-open-api-openapi.yml: declared missing tag: accounts",
-    "altruist-open-api-openapi.yml: declared missing tag: cost-basis",
-    "altruist-open-api-openapi.yml: declared missing tag: data-feed",
-    "altruist-open-api-openapi.yml: declared missing tag: historical-data-feed",
-    "altruist-open-api-openapi.yml: declared missing tag: households",
-    "altruist-open-api-openapi.yml: declared missing tag: positions",
-    "altruist-open-api-openapi.yml: declared missing tag: transactions",
-    "superseded outputs removed: altruist-enterprise-realtime-api-openapi.yml, altruist-open-api-openapi.yml",
-    "apis.yml register: written (+35 apis, 37 total)"
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "altruist-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+2 apis, 39 total)"
   ],
-  "skipped": []
+  "skipped": [
+    "altruist-acat-transfers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-account-balance-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-account-draft-bundles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-account-group-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-account-portfolios-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-bank-links-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-cash-set-aside-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-cash-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-cash-transfers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-client-agreement-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-contribution-limits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-draft-beneficiaries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-funding-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-funding-eligible-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-household-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-household-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-household-contact-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-performance-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-plaid-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-point-of-contact-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-portfolios-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-scheduled-transfers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-transfers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-trusted-contact-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-user-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-user-invitation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altruist-user-profile-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

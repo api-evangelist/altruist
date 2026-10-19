@@ -1,0 +1,184 @@
+openapi: 3.2.0
+info:
+  title: Enterprise Realtime Demo Pre-Release API
+  description: The Enterprise Realtime API service acts as the public API layer for advisor infrastructure, enabling partner-developers to programmatically perform advisor actions.
+  version: v1
+servers:
+- url: https://integrations.altruist.com
+  description: API Server
+tags:
+- name: Demo Pre-Release
+  description: Verification endpoints for the @PreRelease annotation. Not a public API.
+paths:
+  /api/v1/_demo/pre-release/always-on:
+    get:
+      tags:
+      - Demo Pre-Release
+      operationId: alwaysOn
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '501':
+          description: Not Implemented
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '502':
+          description: Bad Gateway
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      summary: Always on
+      x-summary-source: derived
+components:
+  schemas:
+    ErrorV1:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: '### Error Codes
+
+
+            | Code   | Description                         |
+
+            |--------|-------------------------------------|
+
+            | **0xx** | **Unknown or Unexpected**          |
+
+            | 0    | Unknown error                         |
+
+            | 40   | Unknown authentication error          |
+
+            | **1xx** | **General**                        |
+
+            | 101  | Invalid input                         |
+
+            | 104  | Not found                             |
+
+            | 140  | Access Denied                         |
+
+            | 141  | Unauthorized                          |
+
+            | 150  | Not implemented                       |
+
+            | **10xx** | **Household**                     |
+
+            | 1000 | Household not found                   |
+
+            | 1001 | Duplicate contact                     |
+
+            | 1002 | Household contact not found           |
+
+            | 1003 | Household contact already exists      |
+
+            | **11xx** | **Account**                       |
+
+            | 1100 | Account not found                     |
+
+            | 1110 | Invalid account group                 |
+
+            | **12xx** | **User**                          |
+
+            | 1200 | User not found                        |
+
+            | 1201 | User profile not found                |
+
+            | **13xx** | **Transfer**                      |
+
+            | 1300 | Transfer not found                    |
+
+            | 1301 | Transfer not supported                |
+
+            | 1302 | Duplicate transfer                    |
+
+            | 1303 | Funding account not found             |
+
+            | 1304 | Duplicate funding account             |
+
+            | **14xx** | **Client Agreement**              |
+
+            | 1400 | Client Agreement not found            |
+
+            | 1401 | Invalid Client Agreement file         |
+
+            | 1402 | Client Agreement could not be updated |
+
+            | **15xx** | **Trusted Contact**               |
+
+            | 1500 | Trusted Contact not found             |
+
+            | **17xx** | **Cash Set Aside**                |
+
+            | 1700 | Cash set aside not found              |
+
+            | 1701 | Cash set aside invalid amount         |
+
+            | 1702 | Cash set aside invalid date           |
+
+            | 1703 | Cash set aside upstream error         |
+
+            | 1704 | Cash set aside cannot be cancelled    |
+
+            | 1705 | Cash set aside invalid account        |
+
+            | **18xx** | **Cash Settings**                 |
+
+            | 1800 | Cash settings not found               |
+
+            '
+        message:
+          type: string
+        requestId:
+          type: string

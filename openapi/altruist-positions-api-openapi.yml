@@ -270,6 +270,27 @@ paths:
         - positions:read
 components:
   schemas:
+    Error:
+      type: object
+      required:
+      - error_type
+      - message
+      properties:
+        error_type:
+          type: string
+          description: Describes the type or source of error
+          enum:
+          - internal_error
+          - bad_request
+          - dependency_unavailable
+          - resource_not_found
+          - resource_already_exists
+          - unauthorized
+          example: unauthorized
+        message:
+          type: string
+          description: Error message corresponding to the error code
+          example: User is not authorized
     Pagination:
       type: object
       description: Description of a paginated response
@@ -296,27 +317,19 @@ components:
       - page
       - page_size
       - total_pages
-    Error:
+    Positions:
       type: object
-      required:
-      - error_type
-      - message
+      description: A description of positions within a given account
       properties:
-        error_type:
+        account_id:
           type: string
-          description: Describes the type or source of error
-          enum:
-          - internal_error
-          - bad_request
-          - dependency_unavailable
-          - resource_not_found
-          - resource_already_exists
-          - unauthorized
-          example: unauthorized
-        message:
-          type: string
-          description: Error message corresponding to the error code
-          example: User is not authorized
+          description: Account Id
+          example: 20f2d5c4ef1a51e6d0a002518b1da224fe64f5a60d458dcbc5cb25231af3bed8
+        positions:
+          type: array
+          description: A list of Positions
+          items:
+            $ref: '#/components/schemas/Position'
     Position:
       type: object
       description: A description of a Position
@@ -359,19 +372,6 @@ components:
         as_of_date:
           type: string
           example: 2021/03/11
-    Positions:
-      type: object
-      description: A description of positions within a given account
-      properties:
-        account_id:
-          type: string
-          description: Account Id
-          example: 20f2d5c4ef1a51e6d0a002518b1da224fe64f5a60d458dcbc5cb25231af3bed8
-        positions:
-          type: array
-          description: A list of Positions
-          items:
-            $ref: '#/components/schemas/Position'
   securitySchemes:
     Authorization:
       type: http

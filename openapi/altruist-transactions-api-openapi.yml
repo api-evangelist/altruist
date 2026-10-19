@@ -201,45 +201,6 @@ components:
           type: string
           description: Error message corresponding to the error code
           example: User is not authorized
-    Pagination:
-      type: object
-      description: Description of a paginated response
-      properties:
-        page:
-          type: integer
-          format: int32
-          description: Desired page number, default is 0
-          default: 0
-          example: 1
-        page_size:
-          type: integer
-          format: int32
-          description: Page size, default is 100 items
-          default: 100
-          example: 25
-        total_pages:
-          type: integer
-          format: int32
-          description: Total number of pages
-          default: 1
-          example: 3
-      required:
-      - page
-      - page_size
-      - total_pages
-    Transactions:
-      type: object
-      description: A description of Transactions within a given Account
-      properties:
-        account_number:
-          type: string
-          description: Account number
-          example: 3AA08867
-        transactions:
-          type: array
-          description: A list of Transactions
-          items:
-            $ref: '#/components/schemas/Transaction'
     Transaction:
       type: object
       description: A description of a Transaction
@@ -302,6 +263,45 @@ components:
         settle_date:
           type: string
           example: '2020-05-07T00:00:00.000Z'
+    Pagination:
+      type: object
+      description: Description of a paginated response
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: Desired page number, default is 0
+          default: 0
+          example: 1
+        page_size:
+          type: integer
+          format: int32
+          description: Page size, default is 100 items
+          default: 100
+          example: 25
+        total_pages:
+          type: integer
+          format: int32
+          description: Total number of pages
+          default: 1
+          example: 3
+      required:
+      - page
+      - page_size
+      - total_pages
+    Transactions:
+      type: object
+      description: A description of Transactions within a given Account
+      properties:
+        account_number:
+          type: string
+          description: Account number
+          example: 3AA08867
+        transactions:
+          type: array
+          description: A list of Transactions
+          items:
+            $ref: '#/components/schemas/Transaction'
   securitySchemes:
     Authorization:
       type: http

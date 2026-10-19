@@ -1,0 +1,12 @@
+{
+ "url": "https://integrations.altruist.com/v3/api-docs",
+ "final": "https://integrations.altruist.com/v3/api-docs",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 241943,
+ "sha256": "455fdabdafced7f2cbd399499955f7d6f12b4b841e83a52f5864a67870f49466",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

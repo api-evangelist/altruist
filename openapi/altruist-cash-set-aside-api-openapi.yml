@@ -62,20 +62,8 @@ paths:
           default: 20
         example: 20
       responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashSetAsidePageResponse'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -92,8 +80,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -104,8 +98,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -122,6 +116,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashSetAsidePageResponse'
     post:
       tags:
       - Cash Set Aside
@@ -154,26 +154,8 @@ paths:
               $ref: '#/components/schemas/CreateCashSetAsideRequestV1'
         required: true
       responses:
-        '201':
-          description: Cash set aside created
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashSetAsideV1'
-        '202':
-          description: Cash set aside created with rebalance requested
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashSetAsideV1'
         '400':
           description: Invalid request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -190,8 +172,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Account already has an active cash set aside
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -202,8 +190,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Account already has an active cash set aside
           content:
             '*/*':
               schema:
@@ -220,6 +208,18 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '201':
+          description: Cash set aside created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashSetAsideV1'
+        '202':
+          description: Cash set aside created with rebalance requested
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashSetAsideV1'
   /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/cashSetAside/validate:
     post:
       tags:
@@ -253,20 +253,8 @@ paths:
               $ref: '#/components/schemas/CashSetAsideValidationRequestV1'
         required: true
       responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashSetAsideValidationV1'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -283,8 +271,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -295,8 +289,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -313,6 +307,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashSetAsideValidationV1'
   /api/v1/orgs/{orgId}/households/{householdId}/accounts/{accountId}/cashSetAside/{cashSetAsideId}:
     get:
       tags:
@@ -346,20 +346,8 @@ paths:
           type: string
           format: uuid
       responses:
-        '200':
-          description: Cash set aside found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CashSetAsideV1'
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -376,8 +364,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Conflict
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -388,8 +382,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Conflict
           content:
             '*/*':
               schema:
@@ -406,6 +400,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '200':
+          description: Cash set aside found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CashSetAsideV1'
     delete:
       tags:
       - Cash Set Aside
@@ -438,16 +438,8 @@ paths:
           type: string
           format: uuid
       responses:
-        '204':
-          description: Cash set aside cancelled
         '400':
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ErrorV1'
-        '401':
-          description: Unauthorized
           content:
             '*/*':
               schema:
@@ -464,8 +456,14 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '409':
-          description: Cash set aside cannot be cancelled
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        '500':
+          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -476,8 +474,8 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
-        '500':
-          description: Internal Server Error
+        '409':
+          description: Cash set aside cannot be cancelled
           content:
             '*/*':
               schema:
@@ -494,8 +492,33 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ErrorV1'
+        '204':
+          description: Cash set aside cancelled
 components:
   schemas:
+    CashSetAsideValidationV1:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        aum:
+          type: number
+        currentCashBalance:
+          type: number
+        newCashTarget:
+          type: number
+        amountSetAside:
+          type: number
+        asideUntil:
+          type: string
+          format: date
+        note:
+          type: string
+        isRebalancerNeeded:
+          type: boolean
     CashSetAsideValidationRequestV1:
       type: object
       properties:
@@ -511,6 +534,70 @@ components:
       required:
       - amount
       - asideUntil
+    CashSetAsideV1:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        setAsideAmount:
+          type: number
+        setAsidePendingAmount:
+          type: number
+        status:
+          type: string
+          enum:
+          - Pending
+          - Ready
+          - Processing
+          - Complete
+          - Cancelled
+          - Expired
+          - Failed
+        asideUntil:
+          type: string
+          format: date
+        withdrawalAmount:
+          type: number
+        note:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+    CreateCashSetAsideRequestV1:
+      type: object
+      properties:
+        amount:
+          type: number
+        asideUntil:
+          type: string
+          format: date
+        note:
+          type: string
+          maxLength: 255
+          minLength: 0
+        shouldRebalanceAsap:
+          type: boolean
+      required:
+      - amount
+      - asideUntil
+    CashSetAsidePageResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashSetAsideV1'
+        page:
+          $ref: '#/components/schemas/PageInfo'
     ErrorV1:
       type: object
       properties:
@@ -611,93 +698,6 @@ components:
           type: string
         requestId:
           type: string
-    CreateCashSetAsideRequestV1:
-      type: object
-      properties:
-        amount:
-          type: number
-        asideUntil:
-          type: string
-          format: date
-        note:
-          type: string
-          maxLength: 255
-          minLength: 0
-        shouldRebalanceAsap:
-          type: boolean
-      required:
-      - amount
-      - asideUntil
-    CashSetAsideValidationV1:
-      type: object
-      properties:
-        accountId:
-          type: string
-          format: uuid
-        amount:
-          type: number
-        aum:
-          type: number
-        currentCashBalance:
-          type: number
-        newCashTarget:
-          type: number
-        amountSetAside:
-          type: number
-        asideUntil:
-          type: string
-          format: date
-        note:
-          type: string
-        isRebalancerNeeded:
-          type: boolean
-    CashSetAsideV1:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        accountId:
-          type: string
-          format: uuid
-        amount:
-          type: number
-        setAsideAmount:
-          type: number
-        setAsidePendingAmount:
-          type: number
-        status:
-          type: string
-          enum:
-          - Pending
-          - Ready
-          - Processing
-          - Complete
-          - Cancelled
-          - Expired
-          - Failed
-        asideUntil:
-          type: string
-          format: date
-        withdrawalAmount:
-          type: number
-        note:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-    CashSetAsidePageResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CashSetAsideV1'
-        page:
-          $ref: '#/components/schemas/PageInfo'
     PageInfo:
       type: object
       properties:
@@ -713,112 +713,3 @@ components:
         totalPages:
           type: integer
           format: int32
-x-provenance:
-  method: searched
-  source: https://developer.altruist.com/reference
-  harvested: '2026-10-13'
-  tool: harvest-readme-openapi.py
-  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
-  assembled_from:
-  - https://developer.altruist.com/reference/assignaccountportfolio-1.md
-  - https://developer.altruist.com/reference/assignaccounttohousehold.md
-  - https://developer.altruist.com/reference/associatedrafttobundle.md
-  - https://developer.altruist.com/reference/batchdeletebeneficiaries.md
-  - https://developer.altruist.com/reference/cancelacattransfer.md
-  - https://developer.altruist.com/reference/cancelcashsetaside.md
-  - https://developer.altruist.com/reference/cancelcashtransfer-1.md
-  - https://developer.altruist.com/reference/cancelscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/checkdrafteligibility.md
-  - https://developer.altruist.com/reference/createaccountgroup.md
-  - https://developer.altruist.com/reference/createbanklink.md
-  - https://developer.altruist.com/reference/createbeneficiary.md
-  - https://developer.altruist.com/reference/createbundle.md
-  - https://developer.altruist.com/reference/createcashsetaside.md
-  - https://developer.altruist.com/reference/createcashtransfer-1.md
-  - https://developer.altruist.com/reference/createdraftinbundle.md
-  - https://developer.altruist.com/reference/createfundingaccount-1.md
-  - https://developer.altruist.com/reference/createhousehold.md
-  - https://developer.altruist.com/reference/createhouseholdcontact.md
-  - https://developer.altruist.com/reference/createinvite.md
-  - https://developer.altruist.com/reference/createlinktoken.md
-  - https://developer.altruist.com/reference/createplaidfundingaccount.md
-  - https://developer.altruist.com/reference/createscheduledtransfer-1.md
-  - https://developer.altruist.com/reference/createtransfer-1.md
-  - https://developer.altruist.com/reference/createuser.md
-  - https://developer.altruist.com/reference/deleteaccountportfolio-1.md
-  - https://developer.altruist.com/reference/deletebanklink.md
-  - https://developer.altruist.com/reference/deletebeneficiary.md
-  - https://developer.altruist.com/reference/deletebundle.md
-  - https://developer.altruist.com/reference/deleteclientagreement-1.md
-  - https://developer.altruist.com/reference/deletehousehold.md
-  - https://developer.altruist.com/reference/deletetransfer-1.md
-  - https://developer.altruist.com/reference/deletetrustedcontact-1.md
-  - https://developer.altruist.com/reference/downloadclientagreementfile-1.md
-  - https://developer.altruist.com/reference/getacattransfer.md
-  - https://developer.altruist.com/reference/getaccount.md
-  - https://developer.altruist.com/reference/getaccountcashsettings.md
-  - https://developer.altruist.com/reference/getaccountgroup.md
-  - https://developer.altruist.com/reference/getaccountgroups.md
-  - https://developer.altruist.com/reference/getaccountportfolio-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions-1.md
-  - https://developer.altruist.com/reference/getaggregatedtransactions_1.md
-  - https://developer.altruist.com/reference/getallfundingaccounts-1.md
-  - https://developer.altruist.com/reference/getallhouseholdsbyorgid.md
-  - https://developer.altruist.com/reference/getalltransfers-1.md
-  - https://developer.altruist.com/reference/getbanklink.md
-  - https://developer.altruist.com/reference/getbeneficiary.md
-  - https://developer.altruist.com/reference/getbundle.md
-  - https://developer.altruist.com/reference/getcashsetaside.md
-  - https://developer.altruist.com/reference/getcashsummary-1.md
-  - https://developer.altruist.com/reference/getclientagreementdetails-1.md
-  - https://developer.altruist.com/reference/getcontributionlimitforyear-1.md
-  - https://developer.altruist.com/reference/getcontributionlimits-1.md
-  - https://developer.altruist.com/reference/getfundingaccount-1.md
-  - https://developer.altruist.com/reference/gethouseholdbyid.md
-  - https://developer.altruist.com/reference/gethouseholdcontact.md
-  - https://developer.altruist.com/reference/gethouseholdcontacts.md
-  - https://developer.altruist.com/reference/getinvite.md
-  - https://developer.altruist.com/reference/getinvitestatus.md
-  - https://developer.altruist.com/reference/getmmasettings.md
-  - https://developer.altruist.com/reference/getmodel-1.md
-  - https://developer.altruist.com/reference/getpointsofcontact.md
-  - https://developer.altruist.com/reference/getportfolio-1.md
-  - https://developer.altruist.com/reference/getportfolios-1.md
-  - https://developer.altruist.com/reference/getportfolios_1-1.md
-  - https://developer.altruist.com/reference/getsecurities-1.md
-  - https://developer.altruist.com/reference/gettimeweightedreturnsforresourcegroup-1.md
-  - https://developer.altruist.com/reference/gettransferbyid-1.md
-  - https://developer.altruist.com/reference/gettrustedcontact-1.md
-  - https://developer.altruist.com/reference/getuserprofilebyuserid.md
-  - https://developer.altruist.com/reference/getweightedmodelsforportfolio-1.md
-  - https://developer.altruist.com/reference/initiateacattransfer.md
-  - https://developer.altruist.com/reference/listacattransfers.md
-  - https://developer.altruist.com/reference/listaccounts.md
-  - https://developer.altruist.com/reference/listbanklinks.md
-  - https://developer.altruist.com/reference/listbanklinksbyfundingaccount.md
-  - https://developer.altruist.com/reference/listbeneficiaries.md
-  - https://developer.altruist.com/reference/listbundles.md
-  - https://developer.altruist.com/reference/listcashsetasides.md
-  - https://developer.altruist.com/reference/listcashtransfers-1.md
-  - https://developer.altruist.com/reference/listdraftsinbundle.md
-  - https://developer.altruist.com/reference/listfundingeligibleaccounts.md
-  - https://developer.altruist.com/reference/listhouseholdaccounts.md
-  - https://developer.altruist.com/reference/listscheduledtransfers-1.md
-  - https://developer.altruist.com/reference/removedraftfrombundle.md
-  - https://developer.altruist.com/reference/resendacatconfirmation.md
-  - https://developer.altruist.com/reference/setallocations.md
-  - https://developer.altruist.com/reference/unassignaccount.md
-  - https://developer.altruist.com/reference/updateaccount.md
-  - https://developer.altruist.com/reference/updatebeneficiary.md
-  - https://developer.altruist.com/reference/updateclientagreement-1.md
-  - https://developer.altruist.com/reference/updatedraftinbundle.md
-  - https://developer.altruist.com/reference/updatefundingaccount-1.md
-  - https://developer.altruist.com/reference/updatehousehold.md
-  - https://developer.altruist.com/reference/updatetransfer-1.md
-  - https://developer.altruist.com/reference/updatetrustedcontact-1.md
-  - https://developer.altruist.com/reference/updateuserprofile.md
-  - https://developer.altruist.com/reference/validatecashsetaside.md
-  merge:
-    pages: 98
-    deduped: 228
-    conflicts_kept_first: 0

@@ -129,6 +129,20 @@ components:
           type: string
           description: Error message corresponding to the error code
           example: User is not authorized
+    HistoricalDataFeedRequestBody:
+      type: object
+      description: Request body for historical data feed
+      required:
+      - repcodes
+      properties:
+        repcodes:
+          type: array
+          description: List of repcodes to include in the historical data
+          items:
+            type: string
+          example:
+          - A100
+          - A101
     DataFeed:
       type: object
       description: A description of a data feed
@@ -160,20 +174,6 @@ components:
         repcodes:
           type: array
           description: A list of repcodes associated with the authenticated user
-          items:
-            type: string
-          example:
-          - A100
-          - A101
-    HistoricalDataFeedRequestBody:
-      type: object
-      description: Request body for historical data feed
-      required:
-      - repcodes
-      properties:
-        repcodes:
-          type: array
-          description: List of repcodes to include in the historical data
           items:
             type: string
           example:
